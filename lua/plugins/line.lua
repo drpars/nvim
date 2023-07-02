@@ -26,7 +26,7 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-    branch = 'legacy',
+    tag = 'legacy',
     config = function()
       require('fidget').setup()
     end
