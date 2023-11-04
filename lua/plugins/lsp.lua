@@ -59,10 +59,6 @@ return {
           formatting = lsp_zero.cmp_format(),
           mapping = cmp.mapping.preset.insert({
             ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-d>'] = cmp.mapping.scroll_docs(4),
-            ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-            ['<C-b>'] = cmp_action.luasnip_jump_backward(),
           })
         })
       end
