@@ -2,7 +2,7 @@ return {
   {
     "goolord/alpha-nvim",
     config = function()
-      require 'alpha'.setup(require 'core.dashboard'.config)
+      require 'alpha'.setup(require 'settings.dashboard'.config)
     end,
   },
   {

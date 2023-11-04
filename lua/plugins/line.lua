@@ -4,7 +4,7 @@ return {
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-      require("core.buffer")
+      require("settings.buffer")
     end,
   },
   {
