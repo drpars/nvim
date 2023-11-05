@@ -84,7 +84,7 @@ keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" }, opts)
 keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff Vertical" }, opts)
 
 -- t -- TroubleToggle --
-keymap("n", "<leader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true, desc = "Open Trobles" })
+keymap("n", "<leader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true, desc = "Open Troubles" })
 keymap("n", "<leader>tw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true, desc = "Workspace Diagnostic" })
 keymap("n", "<leader>td", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true, desc = "Document Diagnostic" })
 keymap("n", "<leader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true, desc = "Trouble Locklist" })
