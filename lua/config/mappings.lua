@@ -57,10 +57,6 @@ keymap("n", "<leader>n", "<cmd> tabnew<cr>", { desc = "New File" }, opts)
 keymap("n", "<leader>,", "<cmd>Alpha<cr>", { desc = "Menu" }, opts)
 keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Back" }, opts)
 
--- Comment --
-keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<cr>", { desc = "Comment" }, opts)
--- keymap("x", "<leader>/", '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<cr>', { desc = "Comment" })
-
 -- e -- NvimTree --
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", { desc = "Explorer" }, opts)
 
@@ -97,6 +93,7 @@ keymap("n", "<leader>zt", "<cmd>Twilight<cr>", { desc = "Twilight Mode" }, opts)
 
 -- x -- Make Executable File --
 keymap("n", "<leader>x", "<cmd>!chmod +x %<cr>", { silent = true, desc = "Make Executable" })
+keymap("n", "<leader>rx", "<cmd>!chmod -x %<cr>", { silent = true, desc = "Remove Executable" })
 
 -- Visual Mode --
 -- Move Line --
