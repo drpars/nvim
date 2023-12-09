@@ -29,7 +29,7 @@ local options = {
   scrolloff = 15,
   mouse = "a",
 
-  -- clipboard = "unnamedplus",
+  clipboard = "unnamedplus",
 }
 
 vim.g.mapleader = ' '
