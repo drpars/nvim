@@ -85,15 +85,20 @@ local buttons = {
   type = "group",
   val = {
     button("e", "  New file", "<cmd>ene <CR>"),
-    button("SPC f", "  Find file", "<cmd>Telescope find_files<CR>"),
-    button("SPC f g", "  Search Text", "<cmd>Telescope live_grep<CR>"),
-    button("SPC f o", "  Recent Files", "<cmd>Telescope oldfiles<CR>"),
-    button("E", "  Config", "<cmd>edit ~/.config/nvim/init.lua<CR>"),
+    button("f", "  Find file", "<cmd>Telescope find_files<CR>"),
+    button("g", "  Search Text", "<cmd>Telescope live_grep<CR>"),
+    button("r", "  Recent Files", "<cmd>Telescope oldfiles<CR>"),
+    button("c", "  Config", "<cmd>edit ~/.config/nvim/init.lua<CR>"),
     button("q", "  Quit", "<cmd>q<CR>"),
   },
   opts = {
     spacing = 1,
   },
+  footer = function()
+    local stats = require("lazy").stats()
+    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+    return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+  end,
 }
 
 local section = {

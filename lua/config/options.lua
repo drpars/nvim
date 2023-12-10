@@ -34,8 +34,6 @@ local options = {
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = " "
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 
 for option, value in pairs(options) do
   vim.opt[option] = value

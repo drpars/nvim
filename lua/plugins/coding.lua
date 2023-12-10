@@ -34,7 +34,26 @@ return {
       'hrsh7th/nvim-cmp',
       event = 'InsertEnter',
       dependencies = {
-        { 'L3MON4D3/LuaSnip' },
+        {
+          'L3MON4D3/LuaSnip',
+          build = (not jit.os:find("Windows"))
+              and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+              or nil,
+          dependencies = {
+            "rafamadriz/friendly-snippets",
+            config = function()
+              require("luasnip.loaders.from_vscode").lazy_load()
+            end,
+          },
+          opts = {
+            history = true,
+            delete_check_events = "TextChanged",
+          },
+        },
+        { "hrsh7th/cmp-buffer" },
+        { 'hrsh7th/cmp-path' },
+        { "saadparwaiz1/cmp_luasnip" },
+
       },
       config = function()
         -- Here is where you configure the autocompletion settings.
@@ -56,6 +75,12 @@ return {
         local cmp_action = lsp_zero.cmp_action()
 
         cmp.setup({
+          sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+            { name = "luasnip" },
+            { name = 'path' },
+            { name = "buffer" },
+          }),
           formatting = lsp_zero.cmp_format(),
           mapping = cmp.mapping.preset.insert({
             ['<C-Space>'] = cmp.mapping.complete(),
@@ -68,8 +93,17 @@ return {
     {
       'neovim/nvim-lspconfig',
       cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
-      event = { 'BufReadPre', 'BufNewFile' },
+      event = { 'BufWritePost', 'BufReadPre', 'BufReadPost', 'InsertLeave', 'BufNewFile' },
       dependencies = {
+        {
+          "folke/neoconf.nvim",
+          cmd = "Neoconf",
+          config = false,
+        },
+        {
+          "folke/neodev.nvim",
+          opts = {}
+        },
         { 'hrsh7th/cmp-nvim-lsp' },
         { 'williamboman/mason-lspconfig.nvim' },
       },
@@ -112,57 +146,6 @@ return {
       end
     }
   },
-
-  -- Formatter
-  {
-    'stevearc/conform.nvim',
-    event = { "BufReadPre", "BufNewFile" },
-    keys = {
-      {
-        -- Customize or remove this keymap to your liking
-        "<leader>rf",
-        function()
-          require("conform").format({ async = true, lsp_fallback = true })
-        end,
-        mode = "",
-        desc = "Format buffer",
-      },
-    },
-    -- Everything in opts will be passed to setup()
-    opts = {
-      -- Define your formatters
-      formatters_by_ft = {
-        sh = { "shfmt" },
-      },
-      -- Set up format-on-save
-      -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
-      -- Customize formatters
-      formatters = {
-        shfmt = {
-          prepend_args = { "-i", "2" },
-        },
-      },
-    },
-    init = function()
-      -- If you want the formatexpr, here is the place to set it
-      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-    end,
-  },
-
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      show_dirname = false,
-      show_basename = false,
-    },
-  },
-
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -171,72 +154,5 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
-  },
-
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = function()
-      require("nvim-treesitter.install").update({ with_sync = true })
-    end,
-    config = function()
-      require("settings.treesitter")
-    end,
-  },
-
-  {
-    "windwp/nvim-ts-autotag",
-    after = "nvim-treesitter"
-  },
-  {
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
-  },
-  {
-    "m4xshen/autoclose.nvim",
-    opts = {
-      options = {
-        disabled_filetypes = { "text", "markdown" },
-        disable_when_touch = true,
-        pair_spaces = true,
-      },
-    },
-  },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {}
-  },
-
-  {
-    'bennypowers/splitjoin.nvim',
-    lazy = true,
-    keys = {
-      { 'gj', function() require 'splitjoin'.join() end,  desc = 'Join the object under cursor' },
-      { 'g,', function() require 'splitjoin'.split() end, desc = 'Split the object under cursor' },
-    },
-  },
-
-  {
-    'tpope/vim-surround'
-  },
-
-  {
-    'mg979/vim-visual-multi',
-    branch = 'master',
-  },
-
-  {
-    "iamcco/markdown-preview.nvim",
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-  },
-
-  {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
   },
 }
