@@ -222,7 +222,6 @@ return {
             { action = "Telescope live_grep", desc = " Find text", icon = " ", key = "g", key_format = " %s" },
             { action = "Telescope file_browser path=~/.config/nvim/lua/config", desc = " Config", icon = " ", key = "c", key_format = " %s" },
             { action = 'lua require("persistence").load()', desc = " Restore Session", icon = " ", key = "s", key_format = " %s" },
-            { action = "LazyExtras", desc = " Lazy Extras", icon = " ", key = "x", key_format = " %s" },
             { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l", key_format = " %s" },
             { action = "qa", desc = " Quit", icon = " ", key = "q", key_format = " %s" },
           },

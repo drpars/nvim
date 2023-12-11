@@ -100,6 +100,8 @@ keymap("n", "<leader>gc", "<cmd>G commit<cr>", { desc = "Git Commit" })
 keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" })
 keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff Vertical" })
 
+keymap("n", "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", {desc = "Markdown Preview Toggle"})
+
 -- t -- TroubleToggle --
 keymap("n", "<leader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true, desc = "Open Troubles" })
 
