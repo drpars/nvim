@@ -210,7 +210,7 @@ return {
              ░ ░  ░   ░░   ░ ░░         ░   ▒     ░░   ░ ░  ░  ░              
                ░       ░                    ░  ░   ░           ░              
       ]]
-      logo = string.rep("\n", 6) .. logo .. "\n\n"
+      logo = string.rep("\n", 8) .. logo .. "\n\n"
       require('dashboard').setup {
         theme = 'doom', --  theme is doom and hyper default is hyper
         config = {

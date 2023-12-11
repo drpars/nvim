@@ -72,7 +72,7 @@ keymap("n", "wm", "<cmd>WindowsMaximize<cr>", { silent = true, noremap = true, d
 -- With Leader --
 -- Custom --
 keymap("n", "<leader>n", "<cmd> tabnew<cr>", { desc = "New File" })
-keymap("n", "<leader>,", "<cmd>Alpha<cr>", { desc = "Menu" })
+keymap("n", ",", "<cmd>Dashboard<cr>", { desc = "Menu" })
 keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Back" })
 
 -- e -- NvimTree --
@@ -90,7 +90,7 @@ keymap("n", "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "Telescope 
 keymap("n", "<leader>fgc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })
 keymap("n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })
 -- fb --Telescope file browser
-keymap("n", "<leader>fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
+keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
 
 
 -- g -- Git --

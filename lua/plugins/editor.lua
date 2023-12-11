@@ -7,30 +7,6 @@ return {
       { 'nvim-telescope/telescope-file-browser.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make' }
     },
-    -- keys = {
-    --   {
-    --     "sf",
-    --     function()
-    --       local telescope = require("telescope")
-    --
-    --       local function telescope_buffer_dir()
-    --         return vim.fn.expand("%:p:h")
-    --       end
-    --
-    --       telescope.extensions.file_browser.file_browser({
-    --         path = "%:p:h",
-    --         cwd = telescope_buffer_dir(),
-    --         respect_gitignore = false,
-    --         hidden = true,
-    --         grouped = true,
-    --         previewer = false,
-    --         initial_mode = "normal",
-    --         layout_config = { height = 40 },
-    --       })
-    --     end,
-    --     desc = "Open File Browser with the path of the current buffer",
-    --   },
-    -- },
     config = function()
       require('telescope').setup {
         defaults = {
@@ -40,17 +16,28 @@ return {
           }
         },
         pickers = {
-          -- Default configuration for builtin pickers goes here:
-          -- picker_name = {
-          --   picker_config_key = value,
-          --   ...
-          -- }
-          -- Now the picker_config_key will be applied every time you call this
-          -- builtin picker
+          find_files = {
+            theme = "dropdown",
+            layout_config = { width = 0.90 },
+          },
+          oldfiles = {
+            theme = "dropdown",
+            layout_config = { width = 0.90 },
+          },
+          live_grep = {
+            theme = "dropdown",
+            layout_config = { width = 0.90 },
+          }
         },
         extensions = {
           file_browser = {
             theme = "dropdown",
+            previewer = false,
+            hidden = true,
+            layout_strategy = "horizontal",
+            layout_config = { prompt_position = "top", width = 0.90, height = 0.80 },
+            sorting_strategy = "ascending",
+            winblend = 0,
             -- disables netrw and use telescope-file-browser in its place
             hijack_netrw = true,
             mappings = {},
@@ -63,11 +50,9 @@ return {
             -- the default case_mode is "smart_case"
           },
         },
-        -- To get fzf loaded and working with telescope, you need to call
-        -- load_extension, somewhere after setup function:
-        require('telescope').load_extension('fzf'),
-        require('telescope').load_extension('file_browser')
       }
+      require('telescope').load_extension('fzf')
+      require('telescope').load_extension('file_browser')
     end,
   },
   {
