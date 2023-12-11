@@ -56,7 +56,7 @@ keymap("n", "sv", ":vsplit<Return>", opts)
 keymap("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Colorizer --
-keymap("n", "<leader>l", "<cmd>ColorizerToggle<cr>", { desc = "Colorizer" })
+keymap("n", "<leader>c", "<cmd>ColorizerToggle<cr>", { desc = "Colorizer" })
 
 -- TransparentToggle --
 keymap("n", "TT", ":TransparentToggle<cr>", { noremap = true, desc = "Make Transparent" })
@@ -89,6 +89,9 @@ keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files"
 keymap("n", "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })
 keymap("n", "<leader>fgc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })
 keymap("n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })
+-- fb --Telescope file browser
+keymap("n", "<leader>fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
+
 
 -- g -- Git --
 keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive" })

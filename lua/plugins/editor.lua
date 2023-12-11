@@ -7,6 +7,30 @@ return {
       { 'nvim-telescope/telescope-file-browser.nvim' },
       { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make' }
     },
+    -- keys = {
+    --   {
+    --     "sf",
+    --     function()
+    --       local telescope = require("telescope")
+    --
+    --       local function telescope_buffer_dir()
+    --         return vim.fn.expand("%:p:h")
+    --       end
+    --
+    --       telescope.extensions.file_browser.file_browser({
+    --         path = "%:p:h",
+    --         cwd = telescope_buffer_dir(),
+    --         respect_gitignore = false,
+    --         hidden = true,
+    --         grouped = true,
+    --         previewer = false,
+    --         initial_mode = "normal",
+    --         layout_config = { height = 40 },
+    --       })
+    --     end,
+    --     desc = "Open File Browser with the path of the current buffer",
+    --   },
+    -- },
     config = function()
       require('telescope').setup {
         defaults = {
@@ -25,13 +49,19 @@ return {
           -- builtin picker
         },
         extensions = {
+          file_browser = {
+            theme = "dropdown",
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+            mappings = {},
+          },
           fzf = {
             fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
             override_file_sorter = true,    -- override the file sorter
             case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
             -- the default case_mode is "smart_case"
-          }
+          },
         },
         -- To get fzf loaded and working with telescope, you need to call
         -- load_extension, somewhere after setup function:
@@ -104,12 +134,28 @@ return {
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
-    opts = {}
+    opts = {
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
+    }
   },
   {
     "echasnovski/mini.indentscope",
     version = false,
-    -- event = "LazyFile",
     opts = {
       symbol = "│",
       options = { try_as_border = true },
