@@ -26,6 +26,7 @@ return {
           },
           live_grep = {
             theme = "dropdown",
+            wrap_results = true,
             layout_config = { width = 0.90 },
           }
         },
@@ -162,6 +163,7 @@ return {
           "lazyterm",
         },
         callback = function()
+          ---@diagnostic disable-next-line
           vim.b.miniindentscope_disable = true
         end,
       })

@@ -23,6 +23,9 @@ return {
       require("bufferline").setup {
         options = {
           separator_style = "slant",
+          show_buffer_close_icons = false,
+          sort_by = "insert_after_current",
+          -- highlights = require("catppuccin.groups.integrations.bufferline").get()
           -- mode = "tabs",
           offsets = {
             {
@@ -32,8 +35,6 @@ return {
               separator = false
             }
           },
-          sort_by = "insert_after_current",
-          -- highlights = require("catppuccin.groups.integrations.bufferline").get()
         }
       }
     end,
