@@ -40,7 +40,10 @@ return {
     end,
   },
   {
-    "moll/vim-bbye"
+    "echasnovski/mini.bufremove",
+    config = function()
+      require('mini.bufremove').setup()
+    end
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -58,10 +61,7 @@ return {
   },
   {
     'j-hui/fidget.nvim',
-    tag = 'legacy',
-    event = "LspAttach",
     opt = {
-
     },
   },
   {

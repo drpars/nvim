@@ -33,7 +33,7 @@ keymap("n", "<S-h>", ":bprevious<cr>", { desc = "Previous Buffer" })
 keymap("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
 -- Close buffers --
-keymap("n", "<S-q>", "<cmd>Bdelete!<cr>", { desc = "Close Buffer" })
+keymap("n", "<S-q>", "<cmd>lua MiniBufremove.delete()<cr>", { desc = "Close Buffer" })
 
 -- Clear Search --
 keymap({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
