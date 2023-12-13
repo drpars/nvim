@@ -79,19 +79,18 @@ keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Back" })
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", { desc = "Explorer" })
 
 -- f -- Telescope --
-keymap("n", "<leader>f", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
-keymap("n", "<leader>fc", "<cmd>Telescope colorscheme<cr>", { desc = "Colorscheme" })
-keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Help" })
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help" })
 keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
-keymap("n", "<leader>fo", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
+keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
 -- f -- Telescope Git --
-keymap("n", "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })
-keymap("n", "<leader>fgc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })
-keymap("n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })
+keymap("n", "<leader>ts", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })
+keymap("n", "<leader>tc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })
+keymap("n", "<leader>tb", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" })
 -- fb --Telescope file browser
 keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
-
 
 -- g -- Git --
 keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive" })

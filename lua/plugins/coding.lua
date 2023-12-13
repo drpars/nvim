@@ -10,6 +10,7 @@ return {
       local cmp = require('cmp')
       local cmp_action = require('lsp-zero').cmp_action()
       -- local cmp_format = require('lsp-zero').cmp_format()
+      local mason_tool_installer = require("mason-tool-installer")
 
       ---@diagnostic disable:unused-local
       lsp_zero.extend_lspconfig()
@@ -39,6 +40,12 @@ return {
           lsp_zero.default_setup,
         },
       })
+      mason_tool_installer.setup {
+        ensure_installed = {
+            "shfmt",
+            "clang-format",
+          }
+      }
 
       require('luasnip.loaders.from_vscode').lazy_load()
       cmp.setup({
@@ -100,6 +107,7 @@ return {
   },
   { "williamboman/mason.nvim" },
   { "williamboman/mason-lspconfig.nvim" },
+  { "WhoIsSethDaniel/mason-tool-installer.nvim" },
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
