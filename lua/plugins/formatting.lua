@@ -1,11 +1,12 @@
 return {
   {
     'stevearc/conform.nvim',
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
     keys = {
       {
         -- Customize or remove this keymap to your liking
-        "<leader>rf",
+        "<leader>f",
         function()
           require("conform").format({ async = true, lsp_fallback = true })
         end,
@@ -16,6 +17,7 @@ return {
     -- Everything in opts will be passed to setup()
     opts = {
       -- Define your formatters
+      -- :help conform-formatters
       formatters_by_ft = {
         sh = { "shfmt" },
       },
@@ -28,9 +30,9 @@ return {
         },
       },
     },
-    init = function()
-      -- If you want the formatexpr, here is the place to set it
-      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-    end,
+    -- init = function()
+    --   -- If you want the formatexpr, here is the place to set it
+    --   vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    -- end,
   }
 }

@@ -42,9 +42,9 @@ return {
       })
       mason_tool_installer.setup {
         ensure_installed = {
-            "shfmt",
-            "clang-format",
-          }
+          "shfmt",
+          "clang-format",
+        }
       }
 
       require('luasnip.loaders.from_vscode').lazy_load()
@@ -61,8 +61,8 @@ return {
         formatting = {
           fields = { 'abbr', 'kind', 'menu' },
           format = require('lspkind').cmp_format({
-            mode = 'symbol_text', -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-            maxwidth = 50,   -- prevent the popup from showing more than provided characters
+            mode = 'symbol_text',  -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+            maxwidth = 50,         -- prevent the popup from showing more than provided characters
             ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
           })
         },
