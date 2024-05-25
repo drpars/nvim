@@ -44,6 +44,7 @@ return {
         ensure_installed = {
           "shfmt",
           "clang-format",
+          "prettier",
         }
       }
 
