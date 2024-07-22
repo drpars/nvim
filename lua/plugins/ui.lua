@@ -86,19 +86,19 @@ return {
   {
     'xiyaowong/nvim-transparent'
   },
-  {
-    'akinsho/toggleterm.nvim',
-    version = "*",
-    opts = {
-      open_mapping = [[<c-x>]],
-      shade_terminals = false
-    }
-  },
+  -- {
+  --   'akinsho/toggleterm.nvim',
+  --   version = "*",
+  --   opts = {
+  --     open_mapping = [[<c-x>]],
+  --     shade_terminals = false
+  --   }
+  -- },
   {
     "numToStr/FTerm.nvim",
     config = function()
       require 'FTerm'.setup({
-        blend = 18,
+        blend = 0,
         -- dimensions = {
         --   height = 0.9,
         --   width = 0.9,
