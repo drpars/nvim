@@ -51,7 +51,7 @@ return {
     opts = {
       options = {
         icons_enabled = true,
-        theme = "catppuccin",
+        theme = "tokyonight-night",
         globalstatus = true,
       }
     },
@@ -86,14 +86,6 @@ return {
   {
     'xiyaowong/nvim-transparent'
   },
-  -- {
-  --   'akinsho/toggleterm.nvim',
-  --   version = "*",
-  --   opts = {
-  --     open_mapping = [[<c-x>]],
-  --     shade_terminals = false
-  --   }
-  -- },
   {
     "numToStr/FTerm.nvim",
     config = function()

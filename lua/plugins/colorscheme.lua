@@ -42,8 +42,26 @@ return {
         which_key = true,
       },
     },
+    -- init = function()
+    --   vim.cmd [[colorscheme catppuccin]]
+    -- end
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
     init = function()
-      vim.cmd [[colorscheme catppuccin]]
+      vim.cmd [[colorscheme tokyonight-night]]
     end
   },
+  {
+    'dasupradyumna/midnight.nvim',
+    lazy = false,
+    priority = 1000,
+    -- init = function()
+    --   vim.cmd [[colorscheme midnight]]
+    -- end
+  }
+
 }

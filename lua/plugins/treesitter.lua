@@ -20,6 +20,7 @@ return {
           "css",
           "diff",
           "html",
+          "hyprlang",
           "javascript",
           "jsdoc",
           "json",
@@ -51,6 +52,9 @@ return {
         },
         indent = { enable = true },
       }
+      vim.filetype.add({
+        pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+      })
     end,
   },
   {

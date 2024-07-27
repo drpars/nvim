@@ -43,6 +43,7 @@ return {
       mason_tool_installer.setup {
         ensure_installed = {
           "shfmt",
+          "hyprls",
           "clang-format",
           "prettier",
         }
@@ -97,7 +98,8 @@ return {
       require('lspconfig').bashls.setup({})
       require('lspconfig').clangd.setup({})
       require('lspconfig').pyright.setup({})
-      lsp_zero.setup_servers({ 'lua_ls', 'bashls', 'clangd', 'pyright' })
+      require('lspconfig').hyprls.setup({})
+      lsp_zero.setup_servers({ 'lua_ls', 'bashls', 'clangd', 'pyright', 'hyprls' })
     end
   },
   {
@@ -123,11 +125,11 @@ return {
   { "hrsh7th/cmp-nvim-lua" },
   { "onsails/lspkind.nvim" },
   -- Diagnostic
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-    },
-    cmd = "Trouble",
-  }
+  -- {
+  --   "folke/trouble.nvim",
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   opts = {
+  --   },
+  --   cmd = "Trouble",
+  -- }
 }
