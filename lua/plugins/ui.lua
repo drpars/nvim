@@ -17,16 +17,28 @@ return {
   },
   {
     'akinsho/bufferline.nvim',
+    after = "catppuccin",
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
       require("bufferline").setup {
         options = {
-          separator_style = "slant",
+          style_preset = require("bufferline").style_preset.minimal, -- or bufferline.style_preset.minimal,
+          separator_style = "any",                                   -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
           show_buffer_close_icons = false,
           sort_by = "insert_after_current",
-          -- highlights = require("catppuccin.groups.integrations.bufferline").get()
+          highlights = {
+            require("catppuccin.groups.integrations.bufferline").get(),
+            buffer_selected = {
+              bold = true,
+              italic = true,
+            },
+          },
           -- mode = "tabs",
+          indicator = {
+            -- icon = '▎', -- this should be omitted if indicator style is not 'icon'
+            style = 'underline' -- 'icon' | 'underline' | 'none',
+          },
           offsets = {
             {
               filetype = "NvimTree",
@@ -35,8 +47,19 @@ return {
               separator = false
             }
           },
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' }
+          },
         }
       }
+      vim.g.transparent_groups = vim.list_extend(
+        vim.g.transparent_groups or {},
+        vim.tbl_map(function(v)
+          return v.hl_group
+        end, vim.tbl_values(require('bufferline.config').highlights))
+      )
     end,
   },
   {
@@ -51,7 +74,7 @@ return {
     opts = {
       options = {
         icons_enabled = true,
-        theme = "tokyonight-night",
+        theme = "catppuccin",
         globalstatus = true,
       }
     },
@@ -84,7 +107,27 @@ return {
     end,
   },
   {
-    'xiyaowong/nvim-transparent'
+    'xiyaowong/nvim-transparent',
+    config = function()
+      require("transparent").setup({
+        groups = { -- table: default groups
+          'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+          'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+          'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+          'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
+          'EndOfBuffer',
+        },
+        extra_groups = {   -- table: additional groups that should be cleared
+          "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
+          "NvimTreeNormal" -- NvimTree
+        },
+        exclude_groups = {}, -- table: groups you don't want to clear
+      })
+      require('transparent').clear_prefix('BufferLine')
+      require('transparent').clear_prefix('lualine')
+      require('transparent').clear_prefix('nvim-tree')
+    end
+
   },
   {
     "numToStr/FTerm.nvim",

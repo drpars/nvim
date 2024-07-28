@@ -6,8 +6,6 @@ return {
     opts = {
       flavor = "mocha",
       integrations = {
-        aerial = true,
-        alpha = true,
         cmp = true,
         dashboard = true,
         gitsigns = true,
@@ -24,36 +22,43 @@ return {
         },
         native_lsp = {
           enabled = true,
+          virtual_text = {
+            errors = { "italic" },
+            hints = { "italic" },
+            warnings = { "italic" },
+            information = { "italic" },
+            ok = { "italic" },
+          },
           underlines = {
-            errors = { "undercurl" },
-            hints = { "undercurl" },
-            warnings = { "undercurl" },
-            information = { "undercurl" },
+            errors = { "underline" },
+            hints = { "underline" },
+            warnings = { "underline" },
+            information = { "underline" },
+            ok = { "underline" },
+          },
+          inlay_hints = {
+            background = true,
           },
         },
-        neotest = true,
-        neotree = true,
         noice = true,
         notify = true,
         semantic_tokens = true,
-        telescope = true,
         treesitter = true,
         treesitter_context = true,
-        which_key = true,
       },
     },
-    -- init = function()
-    --   vim.cmd [[colorscheme catppuccin]]
-    -- end
+    init = function()
+      vim.cmd [[colorscheme catppuccin]]
+    end
   },
   {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     opts = {},
-    init = function()
-      vim.cmd [[colorscheme tokyonight-night]]
-    end
+    -- init = function()
+    --   vim.cmd [[colorscheme tokyonight-night]]
+    -- end
   },
   {
     'dasupradyumna/midnight.nvim',
