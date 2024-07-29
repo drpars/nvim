@@ -39,6 +39,7 @@ return {
           "vim",
           "vimdoc",
           "yaml",
+          "rasi",
         },
         autotag = { enable = true },
         incremental_selection = {
@@ -54,6 +55,9 @@ return {
       }
       vim.filetype.add({
         pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+      })
+      vim.filetype.add({
+        pattern = { [".*/rofi/.*%.rasi"] = "rasi" },
       })
     end,
   },

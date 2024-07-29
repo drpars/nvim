@@ -41,11 +41,27 @@ return {
           },
           offsets = {
             {
+
               filetype = "NvimTree",
-              text = " File Explorer",
+              text = function()
+                return vim.fn.getcwd()
+              end,
+              highlight = "Directory",
+              -- text_align = "left"
+              -- filetype = "NvimTree",
+              -- text = " File Explorer",
+              -- highlight = "Directory",
+              -- separator = false
+            },
+            {
+              filetype = "neo-tree",
+              -- text = " File Explorer",
+              text = function()
+                return vim.fn.getcwd()
+              end,
               highlight = "Directory",
               separator = false
-            }
+            },
           },
           hover = {
             enabled = true,
@@ -60,6 +76,80 @@ return {
           return v.hl_group
         end, vim.tbl_values(require('bufferline.config').highlights))
       )
+    end,
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+    },
+    config = function()
+      require("neo-tree").setup({
+        enable_git_status = true,
+        modified = {
+          symbol = "[+]",
+          highlight = "NeoTreeModified",
+        },
+        name = {
+          trailing_slash = false,
+          use_git_status_colors = true,
+          highlight = "NeoTreeFileName",
+        },
+        buffers = {
+          follow_current_file = {
+            enabled = true,          -- This will find and focus the file in the active buffer every time
+            --              -- the current file is changed while the tree is open.
+            leave_dirs_open = true, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+          },
+        },
+        git_status = {
+          symbols = {
+            -- Change type
+            added     = "✚", -- or "✚", but this is redundant info if you use git_status_colors on the name
+            modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
+            deleted   = "✖", -- this can only be used in the git_status source
+            renamed   = "󰁕", -- this can only be used in the git_status source
+            -- Status type
+            untracked = "",
+            ignored   = "",
+            unstaged  = "󰄱",
+            staged    = "",
+            conflict  = "",
+          }
+        },
+        symlink_target = {
+          enabled = true,
+        },
+        filesystem = {
+          filtered_items = {
+            -- visible = true, -- when true, they will just be displayed differently than normal items
+            hide_dotfiles = false,
+          }
+        },
+      })
+    end
+  },
+  {
+    's1n7ax/nvim-window-picker',
+    version = '2.*',
+    config = function()
+      require 'window-picker'.setup({
+        filter_rules = {
+          include_current_win = false,
+          autoselect_one = true,
+          -- filter using buffer options
+          bo = {
+            -- if the file type is one of following, the window will be ignored
+            filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+            -- if the buffer type is one of following, the window will be ignored
+            buftype = { 'terminal', "quickfix" },
+          },
+        },
+      })
     end,
   },
   {
@@ -117,17 +207,17 @@ return {
           'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
           'EndOfBuffer',
         },
-        extra_groups = {   -- table: additional groups that should be cleared
-          "NormalFloat",   -- plugins which have float panel such as Lazy, Mason, LspInfo
-          "NvimTreeNormal" -- NvimTree
+        extra_groups = {     -- table: additional groups that should be cleared
+          "NormalFloat",     -- plugins which have float panel such as Lazy, Mason, LspInfo
+          "NvimTreeNormal"   -- NvimTree
         },
         exclude_groups = {}, -- table: groups you don't want to clear
       })
       require('transparent').clear_prefix('BufferLine')
       require('transparent').clear_prefix('lualine')
+      require('transparent').clear_prefix('NeoTree')
       require('transparent').clear_prefix('nvim-tree')
     end
-
   },
   {
     "numToStr/FTerm.nvim",
