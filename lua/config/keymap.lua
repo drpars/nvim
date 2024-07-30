@@ -75,11 +75,11 @@ keymap("n", "<leader>n", "<cmd> tabnew<cr>", { desc = "New File" })
 keymap("n", ",", "<cmd>Dashboard<cr>", { desc = "Menu" })
 keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Back" })
 
--- e -- Neotree --
+-- -- e -- Neotree --
 keymap("n", "<leader>e", ":Neotree toggle<cr>", { desc = "Explorer" })
-keymap("n", "-", ":Neotree current %:p:h:h %:p<cr>", { desc = "Explorer" })
+keymap("n", "-", ":Neotree current %:p:h:h %:p position=left toggle=true<cr>", { desc = "Explorer" })
 
--- -- e -- NvimTree --
+-- e -- NvimTree --
 -- keymap("n", "<leader>e", ":NvimTreeToggle<cr>", { desc = "Explorer" })
 
 -- f -- Telescope --
