@@ -34,18 +34,26 @@ return {
           "lua_ls",
           "bashls",
           "clangd",
-          "pyright"
+          "pylsp",
+          -- "pyright"
         },
         handlers = {
           lsp_zero.default_setup,
+          lua_ls = function()
+            local lua_opts = require("lsp-zero").nvim_lua_ls()
+            require("lspconfig").lua_ls.setup(lua_opts)
+          end,
         },
       })
       mason_tool_installer.setup {
         ensure_installed = {
+          "stylua",
           "shfmt",
           "hyprls",
           "clang-format",
           "prettier",
+          "black",
+          "isort"
         }
       }
 
@@ -97,9 +105,10 @@ return {
       require('lspconfig').lua_ls.setup({})
       require('lspconfig').bashls.setup({})
       require('lspconfig').clangd.setup({})
-      require('lspconfig').pyright.setup({})
+      -- require('lspconfig').pyright.setup({})
+      require('lspconfig').pylsp.setup({})
       require('lspconfig').hyprls.setup({})
-      lsp_zero.setup_servers({ 'lua_ls', 'bashls', 'clangd', 'pyright', 'hyprls' })
+      lsp_zero.setup_servers({ 'lua_ls', 'bashls', 'clangd', 'pylsp' --[[ , 'pyright' ]], 'hyprls' })
     end
   },
   {
