@@ -62,8 +62,8 @@ keymap("n", "<leader>c", "<cmd>ColorizerToggle<cr>", { desc = "Colorizer" })
 keymap("n", "TT", ":TransparentToggle<cr>", { noremap = true, desc = "Make Transparent" })
 
 -- Fterm --
-keymap('n', '<C-x>', '<cmd>lua require("FTerm").toggle()<cr>', { desc = "Open Float Term" })
-keymap('t', '<C-x>', '<C-\\><C-n><cmd>lua require("FTerm").toggle()<cr>', { desc = "Close Float Term" })
+keymap("n", "<C-x>", '<cmd>lua require("FTerm").toggle()<cr>', { desc = "Open Float Term" })
+keymap("t", "<C-x>", '<C-\\><C-n><cmd>lua require("FTerm").toggle()<cr>', { desc = "Close Float Term" })
 
 -- Windows Animation --
 keymap("n", "we", "<cmd>WindowsEqualize<cr>", { silent = true, noremap = true, desc = "Equalize current windows" })
@@ -82,7 +82,10 @@ keymap("n", "-", ":Neotree current %:p:h:h %:p position=left toggle=true<cr>", {
 -- e -- NvimTree --
 -- keymap("n", "<leader>e", ":NvimTreeToggle<cr>", { desc = "Explorer" })
 
--- f -- Telescope --
+-- f -- Formatter --
+-- keymap("n", "<leader>f", "<cmd>Format<cr>", { desc = "Format Buffer" })
+
+-- ff -- Telescope --
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
@@ -103,10 +106,15 @@ keymap("n", "<leader>gc", "<cmd>G commit<cr>", { desc = "Git Commit" })
 keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" })
 keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff Vertical" })
 
-keymap("n", "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", {desc = "Markdown Preview Toggle"})
+keymap("n", "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown Preview Toggle" })
 
 -- t -- TroubleToggle --
-keymap("n", "<leader>tt", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { silent = true, noremap = true, desc = "Open Troubles" })
+keymap(
+  "n",
+  "<leader>tt",
+  "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+  { silent = true, noremap = true, desc = "Open Troubles" }
+)
 
 -- z -- Twilight & Zen Mode --
 keymap("n", "<leader>zz", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
