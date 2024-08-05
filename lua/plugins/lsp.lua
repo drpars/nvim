@@ -22,6 +22,7 @@ return {
       -- { "hrsh7th/cmp-cmdline" },
       { "saadparwaiz1/cmp_luasnip" },
       { "rafamadriz/friendly-snippets" },
+      { "onsails/lspkind.nvim" }
     },
     config = function()
       local cmp = require("cmp")
@@ -66,7 +67,27 @@ return {
       { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
-      { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+      {
+        "WhoIsSethDaniel/mason-tool-installer.nvim",
+        init = function()
+          require("mason-tool-installer").setup({
+            ensure_installed = {
+              "stylua",
+              "shfmt",
+              "hyprls",
+              "clang-format",
+              "prettier",
+              "black",
+              "debugpy",
+              "flake8",
+              "isort",
+              "mypy",
+              "pylint"
+            },
+            auto_update = true,
+          })
+        end
+      }
     },
     config = function()
       local lsp_zero = require("lsp-zero")
@@ -120,7 +141,7 @@ return {
           "lua_ls",
           "bashls",
           "clangd",
-          "pyright",
+          "pyright"
         },
         handlers = {
           -- this first function is the "default handler"
@@ -130,25 +151,57 @@ return {
           end,
         },
       })
-      require("mason-tool-installer").setup({
-        ensure_installed = {
-          "stylua",
-          "shfmt",
-          "hyprls",
-          "clang-format",
-          "prettier",
-          "black",
-          "debugpy",
-          "flake8",
-          "isort",
-          "mypy",
-          "pylint",
-        },
-        auto_update = true,
-      })
     end,
   },
   {
-    "onsails/lspkind.nvim"
-  }
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader>f",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "",
+        desc = "Format buffer",
+      },
+    },
+    -- Everything in opts will be passed to setup()
+    opts = {
+      -- Define your formatters
+      -- :help conform-formatters
+      formatters_by_ft = {
+        lua = { "stylua" },
+        sh = { "shfmt" },
+        json = { "prettier" },
+        css = { "prettier" },
+        python = { "isort", "black" },
+      },
+      -- Set up format-on-save
+      -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
+      -- Customize formatters
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+        black = {
+          prepend_args = { "--fast" },
+        },
+      },
+    },
+    config = function()
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
+    end,
+    -- init = function()
+    -- 	-- If you want the formatexpr, here is the place to set it
+    -- 	vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+    -- end,
+  },
 }
