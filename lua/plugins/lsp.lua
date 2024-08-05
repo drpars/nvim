@@ -22,14 +22,18 @@ return {
       -- { "hrsh7th/cmp-cmdline" },
       { "saadparwaiz1/cmp_luasnip" },
       { "rafamadriz/friendly-snippets" },
-      { "onsails/lspkind.nvim" }
+      { "onsails/lspkind.nvim" },
     },
     config = function()
       local cmp = require("cmp")
-      local cmp_format = require('lsp-zero').cmp_format({ details = true })
-      local lspkind = require('lspkind')
+      -- local cmp_format = require("lsp-zero").cmp_format({ details = true })
+      local lspkind = require("lspkind")
+      local cmp_action = require('lsp-zero').cmp_action()
 
       cmp.setup({
+        completion = {
+          autocomplete = false
+        },
         sources = {
           { name = "nvim_lsp" },
           { name = "luasnip" },
@@ -42,6 +46,8 @@ return {
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-u>"] = cmp.mapping.scroll_docs(-4),
           ["<C-d>"] = cmp.mapping.scroll_docs(4),
+          ['<Tab>'] = cmp_action.tab_complete(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = 'select' }),
         }),
         snippet = {
           expand = function(args)
@@ -55,7 +61,7 @@ return {
         -- formatting = cmp_format,
         formatting = {
           format = lspkind.cmp_format({
-            mode = 'symbol_text', -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+            mode = "symbol_text", -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
             -- maxwidth = 50, -- prevent the popup from showing more than provided characters
             -- (e.g 50 will not show more than 50 characters)
             -- can also be a function to dynamically calculate max width such as
@@ -180,40 +186,40 @@ return {
         desc = "Format buffer",
       },
     },
-    -- Everything in opts will be passed to setup()
-    opts = {
-      -- Define your formatters
-      -- :help conform-formatters
-      formatters_by_ft = {
-        lua = { "stylua" },
-        sh = { "shfmt" },
-        json = { "prettier" },
-        css = { "prettier" },
-        python = { "isort", "black" },
-      },
-      -- Set up format-on-save
-      -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
-      -- Customize formatters
-      formatters = {
-        shfmt = {
-          prepend_args = { "-i", "2" },
+    -- Define your formatters
+    -- :help conform-formatters
+    init = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          sh = { "shfmt" },
+          json = { "prettier" },
+          css = { "prettier" },
+          python = function(bufnr)
+            if require("conform").get_formatter_info("ruff_format", bufnr).available then
+              return { "ruff_format" }
+            else
+              return { "isort", "black" }
+            end
+          end,
         },
-        black = {
-          prepend_args = { "--fast" },
+        default_format_opts = {
+          lsp_format = "fallback",
         },
-      },
-    },
-    config = function()
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        callback = function(args)
-          require("conform").format({ bufnr = args.buf })
-        end,
+        -- format_on_save = {
+        --   -- I recommend these options. See :help conform.format for details.
+        --   lsp_format = "fallback",
+        --   timeout_ms = 500,
+        -- },
+        formatters = {
+          shfmt = {
+            prepend_args = { "-i", "2" },
+          },
+          black = {
+            prepend_args = { "--fast" },
+          },
+        }
       })
     end,
-    -- init = function()
-    -- 	-- If you want the formatexpr, here is the place to set it
-    -- 	vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-    -- end,
   },
 }
