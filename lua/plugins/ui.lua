@@ -1,5 +1,62 @@
 return {
   {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.8',
+    dependencies = {
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope-file-browser.nvim' },
+      { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make' }
+    },
+    config = function()
+      require('telescope').setup {
+        defaults = {
+          -- Default configuration for telescope goes here:
+          -- config_key = value,
+          mappings = {
+          }
+        },
+        pickers = {
+          find_files = {
+            theme = "dropdown",
+            layout_config = { width = 0.90 },
+          },
+          oldfiles = {
+            theme = "dropdown",
+            layout_config = { width = 0.90 },
+          },
+          live_grep = {
+            theme = "dropdown",
+            wrap_results = true,
+            layout_config = { width = 0.90 },
+          }
+        },
+        extensions = {
+          file_browser = {
+            theme = "dropdown",
+            previewer = false,
+            hidden = true,
+            layout_strategy = "horizontal",
+            layout_config = { prompt_position = "top", width = 0.90, height = 0.80 },
+            sorting_strategy = "ascending",
+            winblend = 0,
+            -- disables netrw and use telescope-file-browser in its place
+            hijack_netrw = true,
+            mappings = {},
+          },
+          fzf = {
+            fuzzy = true,                   -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+          },
+        },
+      }
+      require('telescope').load_extension('fzf')
+      require('telescope').load_extension('file_browser')
+    end,
+  },
+  {
     "tpope/vim-fugitive",
   },
   {
@@ -145,7 +202,7 @@ return {
             folder_empty = "󰜌",
             -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
             -- then these will never be used.
-            default = "*",
+            default = "",
             highlight = "NeoTreeFileIcon",
           },
           modified = {
@@ -283,6 +340,7 @@ return {
   },
   {
     "j-hui/fidget.nvim",
+    tag = "v1.0.0",
     opt = {},
   },
   {

@@ -108,14 +108,6 @@ keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff Vertical" }
 
 keymap("n", "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown Preview Toggle" })
 
--- t -- TroubleToggle --
-keymap(
-  "n",
-  "<leader>tt",
-  "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-  { silent = true, noremap = true, desc = "Open Troubles" }
-)
-
 -- z -- Twilight & Zen Mode --
 keymap("n", "<leader>zz", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
 keymap("n", "<leader>zt", "<cmd>Twilight<cr>", { desc = "Twilight Mode" })

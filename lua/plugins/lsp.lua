@@ -32,7 +32,7 @@ return {
 
       cmp.setup({
         completion = {
-          autocomplete = false
+          autocomplete = true
         },
         sources = {
           { name = "nvim_lsp" },
@@ -159,7 +159,9 @@ return {
           "lua_ls",
           "bashls",
           "clangd",
-          "pyright"
+          "pyright",
+          "ruff",
+          "ruff_lsp"
         },
         handlers = {
           -- this first function is the "default handler"
@@ -195,13 +197,7 @@ return {
           sh = { "shfmt" },
           json = { "prettier" },
           css = { "prettier" },
-          python = function(bufnr)
-            if require("conform").get_formatter_info("ruff_format", bufnr).available then
-              return { "ruff_format" }
-            else
-              return { "isort", "black" }
-            end
-          end,
+          python = { "isort", "black" }
         },
         default_format_opts = {
           lsp_format = "fallback",
