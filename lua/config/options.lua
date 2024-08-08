@@ -30,6 +30,9 @@ local options = {
   mouse = "a",
 
   clipboard = "unnamedplus",
+
+  spell = true,
+  spelllang = { "en_us" },
 }
 
 vim.g.mapleader = ' '

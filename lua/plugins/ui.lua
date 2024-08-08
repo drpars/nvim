@@ -1,19 +1,18 @@
 return {
   {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.8",
     dependencies = {
-      { 'nvim-lua/plenary.nvim' },
-      { 'nvim-telescope/telescope-file-browser.nvim' },
-      { 'nvim-telescope/telescope-fzf-native.nvim',  build = 'make' }
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope-file-browser.nvim" },
+      { "nvim-telescope/telescope-fzf-native.nvim",  build = "make" },
     },
     config = function()
-      require('telescope').setup {
+      require("telescope").setup({
         defaults = {
           -- Default configuration for telescope goes here:
           -- config_key = value,
-          mappings = {
-          }
+          mappings = {},
         },
         pickers = {
           find_files = {
@@ -28,7 +27,7 @@ return {
             theme = "dropdown",
             wrap_results = true,
             layout_config = { width = 0.90 },
-          }
+          },
         },
         extensions = {
           file_browser = {
@@ -51,26 +50,10 @@ return {
             -- the default case_mode is "smart_case"
           },
         },
-      }
-      require('telescope').load_extension('fzf')
-      require('telescope').load_extension('file_browser')
+      })
+      require("telescope").load_extension("fzf")
+      require("telescope").load_extension("file_browser")
     end,
-  },
-  {
-    "tpope/vim-fugitive",
-  },
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-      "nvim-tree/nvim-web-devicons", -- optional dependency
-    },
-    opts = {
-      show_dirname = false,
-      show_basename = false,
-    },
   },
   {
     "akinsho/bufferline.nvim",
@@ -339,8 +322,20 @@ return {
     end,
   },
   {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      show_dirname = false,
+      show_basename = false,
+    },
+  },
+  {
     "j-hui/fidget.nvim",
-    tag = "v1.0.0",
     opt = {},
   },
   {
@@ -360,49 +355,6 @@ return {
       vim.o.winminwidth = 10
       vim.o.equalalways = false
       require("windows").setup()
-    end,
-  },
-  {
-    "xiyaowong/nvim-transparent",
-    config = function()
-      require("transparent").setup({
-        groups = { -- table: default groups
-          "Normal",
-          "NormalNC",
-          "Comment",
-          "Constant",
-          "Special",
-          "Identifier",
-          "Statement",
-          "PreProc",
-          "Type",
-          "Underlined",
-          "Todo",
-          "String",
-          "Function",
-          "Conditional",
-          "Repeat",
-          "Operator",
-          "Structure",
-          "LineNr",
-          "NonText",
-          "SignColumn",
-          "CursorLine",
-          "CursorLineNr",
-          "StatusLine",
-          "StatusLineNC",
-          "EndOfBuffer",
-        },
-        extra_groups = {     -- table: additional groups that should be cleared
-          "NormalFloat",     -- plugins which have float panel such as Lazy, Mason, LspInfo
-          "NvimTreeNormal",  -- NvimTree
-        },
-        exclude_groups = {}, -- table: groups you don't want to clear
-      })
-      require("transparent").clear_prefix("BufferLine")
-      require("transparent").clear_prefix("lualine")
-      require("transparent").clear_prefix("NeoTree")
-      -- require('transparent').clear_prefix('nvim-tree')
     end,
   },
   {

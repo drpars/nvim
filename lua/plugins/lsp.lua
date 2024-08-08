@@ -16,27 +16,65 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      { "L3MON4D3/LuaSnip" },
+      {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = "make install_jsregexp",
+        init = function()
+          local ls = require('luasnip')
+          ls.setup({
+            -- Required to automatically include base snippets, like "c" snippets for "cpp"
+            load_ft_func = require('luasnip_snippets.common.snip_utils').load_ft_func,
+            ft_func = require('luasnip_snippets.common.snip_utils').ft_func,
+            -- To enable auto expansin
+            enable_autosnippets = true,
+            -- Uncomment to enable visual snippets triggered using <c-x>
+            -- store_selection_keys = '<c-x>',
+          })
+        end
+      },
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-nvim-lsp-signature-help" },
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-path" },
-      -- { "hrsh7th/cmp-cmdline" },
-      { "saadparwaiz1/cmp_luasnip" },
+      { "hrsh7th/cmp-emoji" },
       { "rafamadriz/friendly-snippets" },
+      { "saadparwaiz1/cmp_luasnip" },
+      {
+        'mireq/luasnip-snippets',
+        dependencies = { 'L3MON4D3/LuaSnip' },
+        init = function()
+          -- Mandatory setup function
+          require('luasnip_snippets.common.snip_utils').setup()
+        end
+      },
+      { "kdheepak/cmp-latex-symbols" },
+      { "f3fora/cmp-spell" },
+      { "ray-x/cmp-treesitter" },
       { "onsails/lspkind.nvim" },
     },
     config = function()
       local cmp = require("cmp")
       -- local cmp_format = require("lsp-zero").cmp_format({ details = true })
-      local lspkind = require("lspkind")
+      -- local lspkind = require("lspkind")
       local cmp_action = require('lsp-zero').cmp_action()
 
       cmp.setup({
         sources = {
           { name = "nvim_lsp" },
-          { name = "luasnip" },
+          { name = "nvim_lsp_signature_help" },
           { name = "buffer" },
           { name = "path" },
-          -- { name = "cmdline" },
+          { name = "luasnip" },
+          { name = "latex_symbols" },
+          {
+            name = "spell",
+            option = {
+              keep_all_entries = false,
+              preselect_correct_word = true,
+            },
+          },
+          { name = "treesitter" },
         },
         mapping = cmp.mapping.preset.insert({
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
@@ -52,20 +90,40 @@ return {
           end,
         },
         window = {
-          completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
+          completion = cmp.config.window.bordered(),
         },
-        -- formatting = cmp_format,
         formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol_text", -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-            -- maxwidth = 50, -- prevent the popup from showing more than provided characters
-            -- (e.g 50 will not show more than 50 characters)
-            -- can also be a function to dynamically calculate max width such as
-            -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-            -- ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-            show_labelDetails = true, -- show labelDetails in menu. Disabled by default
-          })
+          fields = { "kind", "abbr", "menu" },
+          format = function(entry, vim_item)
+            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+            kind.kind = " " .. (strings[1] or "") .. " "
+            kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+            return kind
+          end,
+          -- formatting = cmp_format,
+          -- formatting = {
+          --   format = lspkind.cmp_format({
+          --     mode = "symbol",        -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+          --     show_labelDetails = true, -- show labelDetails in menu. Disabled by default
+          --     menu = {
+          --       nvim_lsp = "(LSP)",
+          --       buffer = "(Buffer)",
+          --       path = "(Path)",
+          --       emoji = "(Emoji)",
+          --       cmdline = "(CMD)",
+          --       luasnip = "(Snippets)",
+          --       latex_symbols = "(Latex)",
+          --       spell = "(Spell)",
+          --       treesitter = "(TS)",
+          --
+          --       tags = '[tag]',
+          --       calc = '[calc]',
+          --     }
+          --   })
+          -- }
         }
       })
       -- friendly snippets
@@ -79,7 +137,6 @@ return {
     cmd = { "LspInfo", "LspInstall", "LspStart" },
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       {
@@ -170,6 +227,7 @@ return {
       })
     end,
   },
+  -- formatter
   {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },

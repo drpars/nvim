@@ -68,6 +68,56 @@ return {
     -- init = function()
     --   vim.cmd [[colorscheme midnight]]
     -- end
-  }
-
+  },
+  {
+    "craftzdog/solarized-osaka.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = false
+    },
+  },
+  {
+    "xiyaowong/nvim-transparent",
+    config = function()
+      require("transparent").setup({
+        groups = { -- table: default groups
+          "Normal",
+          "NormalNC",
+          "Comment",
+          "Constant",
+          "Special",
+          "Identifier",
+          "Statement",
+          "PreProc",
+          "Type",
+          "Underlined",
+          "Todo",
+          "String",
+          "Function",
+          "Conditional",
+          "Repeat",
+          "Operator",
+          "Structure",
+          "LineNr",
+          "NonText",
+          "SignColumn",
+          "CursorLine",
+          "CursorLineNr",
+          "StatusLine",
+          "StatusLineNC",
+          "EndOfBuffer",
+        },
+        extra_groups = {     -- table: additional groups that should be cleared
+          "NormalFloat",     -- plugins which have float panel such as Lazy, Mason, LspInfo
+          "NvimTreeNormal",  -- NvimTree
+        },
+        exclude_groups = {}, -- table: groups you don't want to clear
+      })
+      require("transparent").clear_prefix("BufferLine")
+      require("transparent").clear_prefix("lualine")
+      require("transparent").clear_prefix("NeoTree")
+      -- require('transparent').clear_prefix('nvim-tree')
+    end,
+  },
 }
