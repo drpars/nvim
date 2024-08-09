@@ -76,6 +76,9 @@ return {
     opts = {
       transparent = false
     },
+    -- init = function()
+    --   vim.cmd [[colorscheme solarized-osaka]]
+    -- end
   },
   {
     "xiyaowong/nvim-transparent",
