@@ -66,7 +66,7 @@ return {
           show_buffer_close_icons = false,
           sort_by = "insert_after_current",
           highlights = {
-            -- require("catppuccin.groups.integrations.bufferline").get(),
+            require("catppuccin.groups.integrations.bufferline").get(),
             buffer_selected = {
               bold = true,
               italic = true,
@@ -151,6 +151,9 @@ return {
             highlight = "NeoTreeFileIcon",
           },
         },
+        window = {
+          position = "left"
+        },
         filesystem = {
           filtered_items = {
             hide_dotfiles = false,
@@ -198,9 +201,6 @@ return {
   },
   {
     "j-hui/fidget.nvim",
-    config = function()
-      require("fidget").setup()
-    end,
     opt = {},
   },
   {
