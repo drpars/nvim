@@ -159,7 +159,8 @@ return {
               "flake8",
               "isort",
               "mypy",
-              "pylint"
+              "pylint",
+              "ruff-lsp"
             },
             auto_update = true,
           })
@@ -220,7 +221,6 @@ return {
           "clangd",
           "pyright",
           "ruff",
-          "ruff_lsp"
         },
         handlers = {
           -- this first function is the "default handler"
