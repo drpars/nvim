@@ -1,43 +1,71 @@
 local options = {
-  number = true,
-  relativenumber = true,
-  numberwidth = 4,
-  ignorecase = true,
-  smartcase = true,
+	number = true,
+	relativenumber = true,
+	numberwidth = 4,
+	ignorecase = true,
+	smartcase = true,
 
-  autoindent = true,
-  smartindent = true,
-  tabstop = 2,
-  shiftwidth = 2,
-  expandtab = true,
-  showtabline = 0,
-  showmatch = true,
+	autoindent = true,
+	smartindent = true,
+	tabstop = 2,
+	shiftwidth = 2,
+	expandtab = true,
+	showtabline = 0,
+	showmatch = true,
 
-  splitbelow = true,
-  splitright = true,
+	splitbelow = true,
+	splitright = true,
 
-  termguicolors = true,
-  hidden = true,
-  cursorline = true,
-  fileencoding = "utf-8",
+	termguicolors = true,
+	hidden = true,
+	cursorline = true,
+	fileencoding = "utf-8",
 
-  backup = false,
-  writebackup = false,
-  swapfile = false,
+	backup = false,
+	writebackup = false,
+	swapfile = false,
 
-  updatetime = 20,
-  scrolloff = 15,
-  mouse = "a",
+	updatetime = 20,
+	scrolloff = 15,
+	mouse = "a",
 
-  clipboard = "unnamedplus",
+	clipboard = "unnamedplus",
 
-  spell = true,
-  spelllang = { "en_us" },
+	spell = true,
+	spelllang = { "en_us" },
 }
 
-vim.g.mapleader = ' '
+for option, value in pairs(options) do
+	vim.opt[option] = value
+end
+
+vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-for option, value in pairs(options) do
-  vim.opt[option] = value
+local filename = "~/.local/bin/win32yank.exe"
+-- Expanding ~ to the full home directory path
+local home = os.getenv("HOME")
+local fullPath = filename:gsub("~", home)
+
+-- Try to open the file in read mode
+local file = io.open(fullPath, "r")
+
+-- Check if the file exists
+if file then
+	vim.g.clipboard = {
+		name = "win32yank-wsl",
+		copy = {
+			["+"] = "win32yank.exe -i --crlf",
+			["*"] = "win32yank.exe -i --crlf",
+		},
+		paste = {
+			["+"] = "win32yank.exe -o --lf",
+			["*"] = "win32yank.exe -o --lf",
+		},
+		cache_enabled = false,
+	}
+	-- print("The file exists at: " .. fullPath)
+	file:close() -- Close the file
+	-- else
+	-- print("The file does not exist at: " .. fullPath)
 end
