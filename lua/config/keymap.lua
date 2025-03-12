@@ -58,9 +58,6 @@ keymap("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 -- Colorizer --
 keymap("n", "<leader>c", "<cmd>ColorizerToggle<cr>", { desc = "Colorizer" })
 
--- TransparentToggle --
-keymap("n", "TT", ":TransparentToggle<cr>", { noremap = true, desc = "Make Transparent" })
-
 -- Fterm --
 keymap("n", "<C-x>", '<cmd>lua require("FTerm").toggle()<cr>', { desc = "Open Float Term" })
 keymap("t", "<C-x>", '<C-\\><C-n><cmd>lua require("FTerm").toggle()<cr>', { desc = "Close Float Term" })
@@ -79,19 +76,13 @@ keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Back" })
 keymap("n", "<leader>e", ":Neotree toggle<cr>", { desc = "Explorer" })
 keymap("n", "-", ":Neotree current %:p:h:h %:p position=left toggle=true<cr>", { desc = "Explorer" })
 
--- e -- NvimTree --
--- keymap("n", "<leader>e", ":NvimTreeToggle<cr>", { desc = "Explorer" })
-
--- f -- Formatter --
--- keymap("n", "<leader>f", "<cmd>Format<cr>", { desc = "Format Buffer" })
-
 -- ff -- Telescope --
 keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
+keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
 keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help" })
 keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
-keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
 -- f -- Telescope Git --
 keymap("n", "<leader>ts", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" })
 keymap("n", "<leader>tc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" })

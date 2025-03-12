@@ -151,6 +151,7 @@ return {
             ensure_installed = {
               "stylua",
               "shfmt",
+              "beautysh",
               "hyprls",
               "clang-format",
               "prettier",
@@ -255,6 +256,8 @@ return {
         formatters_by_ft = {
           lua = { "stylua" },
           sh = { "shfmt" },
+          zsh = { "beautysh" },
+          zshrc = { "beautysh" },
           json = { "prettier" },
           css = { "prettier" },
           python = { "isort", "black" }
