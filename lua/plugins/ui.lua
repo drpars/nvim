@@ -204,7 +204,17 @@ return {
 	},
 	{
 		"j-hui/fidget.nvim",
+		-- tag = "*", -- Make sure to update this to something recent!
 		opt = {},
+		config = function()
+			require("fidget").setup({
+				notification = {
+					window = {
+						winblend = 0,
+					},
+				},
+			})
+		end,
 	},
 	{
 		"karb94/neoscroll.nvim",
