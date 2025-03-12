@@ -47,6 +47,7 @@ local winyank = function()
 	local filename = "~/.local/bin/win32yank.exe"
 	-- Expanding ~ to the full home directory path
 	local home = os.getenv("HOME")
+---@diagnostic disable-next-line: param-type-mismatch
 	local fullPath = filename:gsub("~", home)
 
 	-- Try to open the file in read mode
@@ -73,5 +74,5 @@ local winyank = function()
 	end
 end
 
--- For wsl copy/paste
+-- For wsl copy/paste uncomment next line
 -- winyank()
