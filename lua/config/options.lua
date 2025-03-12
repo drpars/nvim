@@ -31,7 +31,7 @@ local options = {
 
 	clipboard = "unnamedplus",
 
-	spell = true,
+	spell = false,
 	spelllang = { "en_us" },
 }
 
@@ -42,30 +42,36 @@ end
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-local filename = "~/.local/bin/win32yank.exe"
--- Expanding ~ to the full home directory path
-local home = os.getenv("HOME")
-local fullPath = filename:gsub("~", home)
+---@diagnostic disable-next-line: unused-function, unused-local
+local winyank = function()
+	local filename = "~/.local/bin/win32yank.exe"
+	-- Expanding ~ to the full home directory path
+	local home = os.getenv("HOME")
+	local fullPath = filename:gsub("~", home)
 
--- Try to open the file in read mode
-local file = io.open(fullPath, "r")
+	-- Try to open the file in read mode
+	local file = io.open(fullPath, "r")
 
--- Check if the file exists
-if file then
-	vim.g.clipboard = {
-		name = "win32yank-wsl",
-		copy = {
-			["+"] = "win32yank.exe -i --crlf",
-			["*"] = "win32yank.exe -i --crlf",
-		},
-		paste = {
-			["+"] = "win32yank.exe -o --lf",
-			["*"] = "win32yank.exe -o --lf",
-		},
-		cache_enabled = false,
-	}
-	-- print("The file exists at: " .. fullPath)
-	file:close() -- Close the file
-	-- else
-	-- print("The file does not exist at: " .. fullPath)
+	-- Check if the file exists
+	if file then
+		vim.g.clipboard = {
+			name = "win32yank-wsl",
+			copy = {
+				["+"] = "win32yank.exe -i --crlf",
+				["*"] = "win32yank.exe -i --crlf",
+			},
+			paste = {
+				["+"] = "win32yank.exe -o --lf",
+				["*"] = "win32yank.exe -o --lf",
+			},
+			cache_enabled = false,
+		}
+		-- print("The file exists at: " .. fullPath)
+		file:close() -- Close the file
+		-- else
+		-- print("The file does not exist at: " .. fullPath)
+	end
 end
+
+-- For wsl copy/paste
+-- winyank()
