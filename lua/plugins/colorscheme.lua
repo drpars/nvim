@@ -7,6 +7,13 @@ return {
 			require("catppuccin").setup({
 				flavour = "mocha", -- latte, frappe, macchiato, mocha
 				transparent_background = true, -- disables setting the background color.
+				custom_highlights = {
+					NormalFloat = { bg = "none" },
+					TelescopeBorder = { bg = "none" },
+					FloatBorder = {
+						bg = "none",
+					},
+				},
 				integrations = {
 					cmp = true,
 					gitsigns = true,
@@ -31,7 +38,7 @@ return {
 					},
 					fidget = true,
 					bufferline = true,
-          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 				},
 			})
 			vim.cmd.colorscheme("catppuccin-mocha")

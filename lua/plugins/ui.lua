@@ -254,8 +254,8 @@ return {
 			local cmd
 			if is_windows then
 				cmd = "pwsh" -- Use PowerShell on native Windows
-      else
-        cmd = "zsh" -- Use zsh on other OS
+			else
+				cmd = "zsh" -- Use zsh on other OS
 			end
 			require("FTerm").setup({
 				cmd = cmd, -- Set the command based on the OS
@@ -298,6 +298,7 @@ return {
 					},
 					win_options = {
 						winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
+						winblend = 0,
 					},
 				},
 			},
