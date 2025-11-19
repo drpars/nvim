@@ -199,7 +199,6 @@ return {
 				ensure_installed = {
 					"stylua",
 					"shfmt",
-					"beautysh",
 					"hyprls",
 					"clang-format",
 					"prettier",

@@ -46,14 +46,16 @@ vim.opt.pumblend = 0
 vim.opt.winblend = 0
 
 local winyank = function()
-	if vim.fn.has("wsl") == 1 then
-		local filename = "~/.local/bin/win32yank.exe"
-		local home = os.getenv("HOME") or "" -- Fallback to an empty string if HOME is not set
-		local path_separator = package.config:sub(1, 1) -- Get the correct path separator
-		local fullPath = filename:gsub("~", home):gsub("/", path_separator)
+	-- İndirme URL'sini burada tanımlıyoruz
+	local WGET_URL = "https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip"
+	local HEDEF_DIZIN = vim.fn.stdpath("data") .. "/win32yank/" -- İndirme ve çıkarma için geçici dizin
+	local FINAL_PATH = vim.fn.expand("~/.local/bin/win32yank.exe") -- win32yank.exe'nin beklenen nihai yolu
+	local PATH_BIN = vim.fn.expand("~/.local/bin/") -- Kopyalanacak dizin
 
-		local file, _ = io.open(fullPath, "r") -- Silence unused err warning
-		if file then
+	if vim.fn.has("wsl") == 1 then
+		-- 1. Yolu kontrol et: win32yank.exe mevcut mu?
+		if vim.fn.filereadable(FINAL_PATH) == 1 then
+			-- DOSYA MEVCUT: Clipboard'u ayarla.
 			vim.g.clipboard = {
 				name = "win32yank-wsl",
 				copy = {
@@ -66,9 +68,46 @@ local winyank = function()
 				},
 				cache_enabled = false,
 			}
-			file:close()
 		else
-			vim.notify("win32yank.exe not found at: " .. fullPath, vim.log.levels.WARN)
+			-- DOSYA MEVCUT DEĞİL: Kurulumu otomatik yap.
+			vim.notify("win32yank.exe bulunamadı. Otomatik kurulum başlatılıyor...", vim.log.levels.INFO)
+			-- Dizinin varlığını kontrol et ve oluştur
+			if vim.fn.isdirectory(PATH_BIN) == 0 then
+				vim.fn.mkdir(PATH_BIN, "p")
+			end
+			-- Geçici dizini oluştur
+			vim.fn.mkdir(HEDEF_DIZIN, "p")
+			-- İndirme, çıkarma ve kopyalama komutlarını oluştur ve çalıştır.
+			-- wget, unzip ve mv (veya cp) komutları gereklidir.
+			local komut = string.format(
+				[[
+                cd %s && \
+                wget -O win32yank.zip %s && \
+                unzip -o win32yank.zip && \
+                mv win32yank.exe %s \
+                chmod +x %s
+            ]],
+				HEDEF_DIZIN,
+				WGET_URL,
+				PATH_BIN
+			)
+			-- Komutu çalıştır (vim.fn.system kullanmak daha güvenlidir)
+			local sonuc = vim.fn.system(komut)
+			-- Hata kontrolü
+			if vim.v.shell_error ~= 0 then
+				vim.notify("win32yank kurulumunda HATA oluştu. Çıktı: " .. sonuc, vim.log.levels.ERROR)
+			else
+				vim.notify("win32yank başarıyla kuruldu ve kopyalandı.", vim.log.levels.INFO)
+				-- Kurulum başarılıysa, clipboard'u ayarla
+				vim.g.clipboard = {
+					name = "win32yank-wsl",
+					copy = { ["+"] = "win32yank.exe -i --crlf", ["*"] = "win32yank.exe -i --crlf" },
+					paste = { ["+"] = "win32yank.exe -o --lf", ["*"] = "win32yank.exe -o --lf" },
+					cache_enabled = false,
+				}
+			end
+			-- Geçici dizini temizle
+			vim.fn.delete(HEDEF_DIZIN, "rf")
 		end
 	end
 end
