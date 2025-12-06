@@ -1,3 +1,3 @@
-require("config.options")
-require("config.keymap")
-require("config.lazy")
+require("drpars.core")
+require("drpars.lazy")
+require("drpars.lsp")

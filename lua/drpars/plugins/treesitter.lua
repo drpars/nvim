@@ -3,7 +3,6 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
-			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
 				highlight = {
 					enable = true,
@@ -28,6 +27,7 @@ return {
 					"lua",
 					"luadoc",
 					"luap",
+					"prisma",
 					"markdown",
 					"markdown_inline",
 					"python",
@@ -35,6 +35,8 @@ return {
 					"regex",
 					"toml",
 					"tsx",
+					"dockerfile",
+					"gitignore",
 					"typescript",
 					"vim",
 					"vimdoc",
@@ -64,27 +66,5 @@ return {
 	{
 		"windwp/nvim-ts-autotag",
 		after = "nvim-treesitter",
-	},
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {}, -- this is equalent to setup({}) function
-	},
-	{
-		"m4xshen/autoclose.nvim",
-		opts = {
-			options = {
-				disabled_filetypes = { "text", "markdown" },
-				disable_when_touch = true,
-				pair_spaces = true,
-			},
-		},
-	},
-	{
-		"echasnovski/mini.surround",
-		version = "*",
-		config = function()
-			require("mini.surround").setup()
-		end,
 	},
 }
