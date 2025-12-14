@@ -61,7 +61,7 @@ keymap("n", "<S-q>", "<cmd>lua MiniBufremove.delete()<cr>", { desc = "Close Buff
 keymap("n", "<leader>n", "<cmd> tabnew<cr>", { desc = "New File (Tab)" })
 
 -- Buffer Silme: Leader+o ile mevcut buffer'ı silme.
-keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Close/Delete Buffer" })
+-- keymap("n", "<leader>o", "<cmd>bd<cr>", { desc = "Close/Delete Buffer" })
 
 -----------------------------------------------------------
 -- SATIR TAŞIMA & VİSUAL MOD İŞLEMLERİ
@@ -84,7 +84,7 @@ keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
 -- Yapıştırma Düzeltmesi (Visual Mod): Seçilen metni yapıştırırken, silinen metnin isimsiz kaydediciye yazılmasını engeller.
--- keymap("v", "p", '"_dP', { remap = false, desc = "Paste without overwriting yank register" })
+keymap("v", "p", '"_dP', { remap = false, desc = "Paste without overwriting yank register" })
 
 -----------------------------------------------------------
 -- ARAMA & EKLENTİ KISAYOLLARI
@@ -109,10 +109,10 @@ keymap("t", "<C-x>", '<C-\\><C-n><cmd>lua require("FTerm").toggle()<cr>', { desc
 keymap("n", "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown Preview Toggle" })
 
 -- Executable: Dosyayı çalıştırılabilir yapar (chmod +x).
-keymap("n", "<leader>x", "<cmd>!chmod +x %<cr>", { silent = true, desc = "Make Executable" })
+keymap("n", "<leader>+", "<cmd>!chmod +x %<cr>", { silent = true, desc = "Make Executable" })
 
 -- Executable: Dosyanın çalıştırılabilir özelliğini kaldırır (chmod -x).
-keymap("n", "<leader>rx", "<cmd>!chmod -x %<cr>", { silent = true, desc = "Remove Executable" })
+keymap("n", "<leader>-", "<cmd>!chmod -x %<cr>", { silent = true, desc = "Remove Executable" })
 
 -- ZEN & TWILIGHT MODLARI
 keymap("n", "<leader>zz", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
@@ -120,25 +120,25 @@ keymap("n", "<leader>zt", "<cmd>Twilight<cr>", { desc = "Twilight Mode" })
 
 -- NEOTREE (Dosya Gezgini)
 keymap("n", "<leader>e", ":Neotree toggle<cr>", { desc = "Explorer Toggle" })
-keymap("n", "-", ":Neotree current %:p:h:h %:p position=left toggle=true<cr>", { desc = "Explorer (Parent Dir)" })
+keymap("n", "_", ":Neotree current %:p:h:h %:p position=left toggle=true<cr>", { desc = "Explorer (Parent Dir)" })
 
 -----------------------------------------------------------
 -- TELESCOPE (Leader + f)
 -----------------------------------------------------------
 
-keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files (Proje)" })
-keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files (En Son)" })
-keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep (Metin Ara)" })
-keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers (Açık Dosyalar)" })
-keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help (Vim Yardım)" })
-keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps (Kısayollar)" })
-keymap("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "Copy History (Kopyalama Geçmişi)" })
-keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser (Mevcut Dizin)" })
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
+keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help" })
+keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
+keymap("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "Copy History" })
+keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
 
 -- TELESCOPE GIT (Leader + t)
-keymap("n", "<leader>ts", "<cmd>Telescope git_status<cr>", { desc = "Git Status (Değişen Dosyalar)" })
-keymap("n", "<leader>tc", "<cmd>Telescope git_commits<cr>", { desc = "Git Commits (Tüm Commitler)" })
-keymap("n", "<leader>tb", "<cmd>Telescope git_branches<cr>", { desc = "Git Branches (Dallar)" })
+keymap("n", "<leader>ts", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
+keymap("n", "<leader>tc", "<cmd>Telescope git_commits<cr>", { desc = "Git Commits" })
+keymap("n", "<leader>tb", "<cmd>Telescope git_branches<cr>", { desc = "Git Branches" })
 
 -----------------------------------------------------------
 -- GIT (Leader + g)
