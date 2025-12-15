@@ -1,70 +1,92 @@
+local languages = {
+	"bash",
+	"c",
+	"cpp",
+	"css",
+	"diff",
+	"html",
+	"hyprlang",
+	"javascript",
+	"jsdoc",
+	"json",
+	"jsonc",
+	"lua",
+	"luadoc",
+	"luap",
+	"prisma",
+	"markdown",
+	"markdown_inline",
+	"python",
+	"query",
+	"regex",
+	"toml",
+	"tsx",
+	"dockerfile",
+	"gitignore",
+	"typescript",
+	"vim",
+	"vimdoc",
+	"yaml",
+	"rasi",
+}
+
 return {
+	-- 1. nvim-treesitter (Temel Eklenti)
 	{
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
 		build = ":TSUpdate",
+	},
+
+	-- 2. nvim-treesitter-context (Bağlam Eklentisi)
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		event = "BufReadPost", -- Dosya okunduktan sonra yükle
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
-				context_commentstring = {
-					enable = true,
-					enable_autocmd = false,
-				},
-				ensure_installed = {
-					"bash",
-					"c",
-					"cpp",
-					"css",
-					"diff",
-					"html",
-					"hyprlang",
-					"javascript",
-					"jsdoc",
-					"json",
-					"jsonc",
-					"lua",
-					"luadoc",
-					"luap",
-					"prisma",
-					"markdown",
-					"markdown_inline",
-					"python",
-					"query",
-					"regex",
-					"toml",
-					"tsx",
-					"dockerfile",
-					"gitignore",
-					"typescript",
-					"vim",
-					"vimdoc",
-					"yaml",
-					"rasi",
-				},
-				autotag = { enable = true },
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<C-space>",
-						node_incremental = "<C-space>",
-						scope_incremental = false,
-						node_decremental = "<bs>",
-					},
-				},
-				indent = { enable = true },
-			})
-			vim.filetype.add({
-				pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
-			})
-			vim.filetype.add({
-				pattern = { [".*/rofi/.*%.rasi"] = "rasi" },
+			require("treesitter-context").setup({
+				enable = false,
+				max_lines = 0,
+				min_rows = 10,
+				zindex = 20,
+				mode = "cursor",
 			})
 		end,
 	},
+
+	-- 3. MeanderingProgrammer/treesitter-modules.nvim (Yapılandırma Yöneticisi)
+	{
+		"MeanderingProgrammer/treesitter-modules.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+
+		opts = {
+			-- A. Parser Kurulumu
+			ensure_installed = languages,
+
+			-- B. Temel Treesitter Modülleri (nvim-treesitter'ın kendi modülleri)
+			highlight = { enable = true },
+			indent = { enable = true },
+			-- fold = { enable = true }, -- Kod katlama modülü - treesitter baz alıyor.
+			context_commentstring = { enable = true }, -- Burası doğru konumdur
+
+			-- C. Incremental Selection (Aşamalı Seçim)
+			incremental_selection = {
+				enable = true,
+				keymaps = {
+					init_selection = "<C-space>",
+					node_incremental = "<C-space>",
+					scope_incremental = false,
+					node_decremental = "<bs>",
+				},
+			},
+		},
+	},
+
+	-- 4. nvim-ts-autotag
 	{
 		"windwp/nvim-ts-autotag",
-		after = "nvim-treesitter",
+		ft = { "html", "javascript", "typescript", "tsx", "jsx" },
+		config = function()
+			require("nvim-ts-autotag").setup()
+		end,
 	},
 }
