@@ -79,6 +79,7 @@ return {
 					{ name = "luasnip" }, -- 3. Snippet'ler
 					{ name = "buffer" }, -- 4. Buffer İçeriği
 					{ name = "path" }, -- 5. Dosya Yolları
+          { name = "lazydev" },
 					-- { name = "treesitter" }, -- Kaldırıldı (Performans için)
 					{ name = "nerdfont" }, -- Nerd Font ikon tabanlı tamamlama
 					{
