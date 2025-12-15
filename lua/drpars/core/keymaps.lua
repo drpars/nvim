@@ -15,7 +15,7 @@ keymap({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hl
 keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
 
 -- Yeniden Çizme/Arama Temizleme: Arama vurgusunu temizler ve pencereyi yeniden çizer.
-keymap("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", { desc = "Redraw / clear hlsearch / diff update" })
+keymap("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", { desc = "Reset Visual State" })
 
 -- Hepsini Seçme: ggVG yerine gg<S-v>G kullanımı.
 keymap("n", "<C-a>", "gg<S-v>G", { desc = "Select All" })
@@ -132,19 +132,24 @@ keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" }
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help" })
 keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
-keymap("n", "<leader>fy", "<cmd>Telescope yank_history<cr>", { desc = "Copy History" })
 keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
 
--- TELESCOPE GIT (Leader + t)
-keymap("n", "<leader>ts", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
-keymap("n", "<leader>tc", "<cmd>Telescope git_commits<cr>", { desc = "Git Commits" })
-keymap("n", "<leader>tb", "<cmd>Telescope git_branches<cr>", { desc = "Git Branches" })
+-- TELESCOPE GIT (Leader + t + g)
+keymap("n", "<leader>tgs", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
+keymap("n", "<leader>tgc", "<cmd>Telescope git_commits<cr>", { desc = "Git Commits" })
+keymap("n", "<leader>tgb", "<cmd>Telescope git_branches<cr>", { desc = "Git Branches" })
+
+-----------------------------------------------------------
+-- TREESITTER (Leader + t + c)
+-----------------------------------------------------------
+
+keymap("n", "<leader>tc", function() require("treesitter-context").toggle() end, { desc = "[T]reesitter [C]ontext Toggle" })
 
 -----------------------------------------------------------
 -- GIT (Leader + g)
 -----------------------------------------------------------
 
-keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive (Ana Pencere)" })
+keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive" })
 keymap("n", "<leader>gs", "<cmd>Git status<cr>", { desc = "Git Status" })
 keymap("n", "<leader>gc", "<cmd>G commit<cr>", { desc = "Git Commit" })
 keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" })
