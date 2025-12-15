@@ -43,8 +43,9 @@ return {
 			ensure_installed = {
 				"stylua",
 				"shfmt",
-				"hyprls",
+				"shellcheck",
 				"clang-format",
+				"hyprls",
 				"prettier",
 				"black",
 				"debugpy",
@@ -53,6 +54,7 @@ return {
 				"mypy",
 				"pylint",
 				"eslint_d",
+        "codespell",
 			},
 		},
 		dependencies = {
