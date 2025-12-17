@@ -163,9 +163,9 @@ keymap("n", "<leader>tc", function() require("treesitter-context").toggle() end,
 -----------------------------------------------------------
 
 keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff Vertical" })
+keymap("n", "<leader>gs", "<cmd>Git status<cr>", { desc = "Git Status" })
 
 -- silinecek
 -- keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive" })
--- keymap("n", "<leader>gs", "<cmd>Git status<cr>", { desc = "Git Status" })
 -- keymap("n", "<leader>gc", "<cmd>G commit<cr>", { desc = "Git Commit" })
 -- keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" })
