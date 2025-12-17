@@ -162,8 +162,10 @@ keymap("n", "<leader>tc", function() require("treesitter-context").toggle() end,
 -- GIT (Leader + g)
 -----------------------------------------------------------
 
-keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive" })
-keymap("n", "<leader>gs", "<cmd>Git status<cr>", { desc = "Git Status" })
-keymap("n", "<leader>gc", "<cmd>G commit<cr>", { desc = "Git Commit" })
-keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" })
 keymap("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>", { desc = "Git Diff Vertical" })
+
+-- silinecek
+-- keymap("n", "<leader>g", "<cmd>G<cr>", { desc = "Git Fugitive" })
+-- keymap("n", "<leader>gs", "<cmd>Git status<cr>", { desc = "Git Status" })
+-- keymap("n", "<leader>gc", "<cmd>G commit<cr>", { desc = "Git Commit" })
+-- keymap("n", "<leader>gp", "<cmd>G push<cr>", { desc = "Git Push" })
