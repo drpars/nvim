@@ -51,3 +51,12 @@ opt.backup = false                          -- Yedek Dosyası: Yedek dosyası ol
 opt.writebackup = false                     -- Yazma Yedeklemesi: Dosya yazılırken geçici yedek oluşturulmasını devre dışı bırakır.
 opt.splitright = true                       -- Dikey Bölme: Dikey bölünmüş pencerelerin sağa açılmasını sağlar.
 opt.splitbelow = true                       -- Yatay Bölme: Yatay bölünmüş pencerelerin alta açılmasını sağlar.
+
+-----------------------------------------------------------
+-- KOMUT SATIRI (WILDMENU) AYARLARI
+-----------------------------------------------------------
+
+opt.wildmenu = true                      -- Komut satırı tamamlamasını aktifleştirir.
+opt.wildmode = "longest:full,full"       -- İlk Tab'da ortak kısmı tamamlar, ikincide listeyi açar.
+opt.wildoptions = "pum"                  -- Tamamlamayı popup menü (pum) şeklinde gösterir (Noice ile uyumludur).
+opt.wildignore:append({ "*.pyc", "**/node_modules/*", "**/.git/*", "*.zip", "*.png", "*.jpg" }) -- Gereksiz dosyaları gizler.

@@ -6,79 +6,75 @@ return {
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-file-browser.nvim" },
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			{ "nvim-tree/nvim-web-devicons" }, -- İkonlar için gerekli
 		},
 		config = function()
+			-- local actions = require("telescope.actions")
+
 			require("telescope").setup({
 				defaults = {
-					mappings = {},
+					-- GENEL GÖRÜNÜM
+					theme = "dropdown",
+					layout_strategy = "horizontal",
+					layout_config = {
+						width = 0.90,
+						height = 0.80,
+						prompt_position = "top",
+						preview_width = 0.5,
+					},
+					sorting_strategy = "ascending",
+					preview = {
+						msg_bg_fillchar = " ", -- Boş alanları temiz tutar
+					},
+
+					-- METİN AYARLARI
+					wrap_results = true, -- Arama listesindeki sonuçları kaydırır
+					path_display = { "truncate" }, -- Uzun dosya yollarını kırpar
+
+					-- ÖNİZLEME (Preview) PENCERESİ İÇİN WRAP (SATIR KAYDIRMA)
+					buffer_previewer_maker = function(filepath, bufnr, opts)
+						opts = opts or {}
+						opts.use_ft_detect = opts.use_ft_detect == nil and true or opts.use_ft_detect
+
+						-- Önizleme buffer'ı açıldığında yerel olarak wrap'i aktif et
+						vim.api.nvim_buf_call(bufnr, function()
+							vim.opt_local.wrap = true
+						end)
+
+						require("telescope.previewers").buffer_previewer_maker(filepath, bufnr, opts)
+					end,
+
+					-- GÖRSEL: YUVARLATILMIŞ KENARLIKLAR (Noice & LSP uyumlu)
+					borderchars = {
+						prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+						results = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+						preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+					},
 				},
 				pickers = {
 					find_files = {
-						theme = "dropdown",
-						layout_config = { width = 0.90 },
-					},
-					oldfiles = {
-						theme = "dropdown",
-						layout_config = { width = 0.90 },
+						hidden = true, -- .env gibi gizli dosyaları aramaya dahil eder
 					},
 					live_grep = {
-						theme = "dropdown",
-						wrap_results = true,
-						layout_config = { width = 0.90 },
+						-- Burada defaults'tan farklı bir şey istersen ekleyebilirsin
 					},
-					buffers = {
-						theme = "dropdown",
-						wrap_results = true,
-						layout_config = { width = 0.90 },
-					},
-					help_tags = {
-						theme = "dropdown",
-						wrap_results = true,
-						layout_config = { width = 0.90 },
-					},
-					keymaps = {
-						theme = "dropdown",
-						wrap_results = true,
-						layout_config = { width = 0.90 },
-					},
-					-- git_status = {
-					-- 	theme = "dropdown",
-					-- 	wrap_results = true,
-					-- 	layout_config = { width = 0.90 },
-					-- },
-					-- git_commits = {
-					-- 	theme = "dropdown",
-					-- 	wrap_results = true,
-					-- 	layout_config = { width = 0.90 },
-					-- },
-					-- git_branches = {
-					-- 	theme = "dropdown",
-					-- 	wrap_results = true,
-					-- 	layout_config = { width = 0.90 },
-					-- },
 				},
 				extensions = {
 					file_browser = {
-            grouped = true,
-						theme = "dropdown",
-						previewer = false,
-						hidden = true,
-						layout_strategy = "horizontal",
-						layout_config = { prompt_position = "top", width = 0.90, height = 0.80 },
-						sorting_strategy = "ascending",
-						-- disables netrw and use telescope-file-browser in its place
+						grouped = true,
 						hijack_netrw = true,
-						mappings = {},
+						hidden = true,
 					},
 					fzf = {
-						fuzzy = true, -- false will only do exact matching
-						override_generic_sorter = true, -- override the generic sorter
-						override_file_sorter = true, -- override the file sorter
-						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-						-- the default case_mode is "smart_case"
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "smart_case",
 					},
 				},
 			})
+
+			-- Uzantıları yükle
 			require("telescope").load_extension("fzf")
 			require("telescope").load_extension("file_browser")
 		end,

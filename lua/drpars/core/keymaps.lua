@@ -120,7 +120,15 @@ keymap("n", "<leader>zt", "<cmd>Twilight<cr>", { desc = "Twilight Mode" })
 
 -- NEOTREE (Dosya Gezgini)
 keymap("n", "<leader>e", ":Neotree toggle<cr>", { desc = "Explorer Toggle" })
-keymap("n", "_", ":Neotree current %:p:h:h %:p position=left toggle=true<cr>", { desc = "Explorer (Parent Dir)" })
+keymap("n", "-", function()
+	require("neo-tree.command").execute({
+		action = "focus", -- Pencereyi aç ve içine odaklan
+		source = "filesystem", -- Dosya sistemini kullan
+		position = "float", -- Modern yüzer stile uyumlu olsun
+		dir = vim.fn.expand("%:p:h"), -- Dinamik olarak 2 üst klasörü hesaplamak için ":h" eklemek gerekir
+		toggle = true, -- Basınca kapansın, basınca açılsın
+	})
+end, { desc = "Explorer (Parent Dir) - Floating" })
 
 -----------------------------------------------------------
 -- TELESCOPE (Leader + f)
@@ -138,6 +146,11 @@ keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr
 keymap("n", "<leader>tgs", "<cmd>Telescope git_status<cr>", { desc = "Git Status" })
 keymap("n", "<leader>tgc", "<cmd>Telescope git_commits<cr>", { desc = "Git Commits" })
 keymap("n", "<leader>tgb", "<cmd>Telescope git_branches<cr>", { desc = "Git Branches" })
+
+-- Dosya içindeki fonksiyon ve değişkenleri (LSP üzerinden) hızlıca ara ve zıpla
+keymap("n", "<leader>xs", function()
+	require("telescope.builtin").lsp_document_symbols()
+end, { desc = "LSP: File Symbols" })
 
 -----------------------------------------------------------
 -- TREESITTER (Leader + t + c)
