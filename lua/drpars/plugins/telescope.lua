@@ -10,7 +10,9 @@ return {
 		},
 		config = function()
 			-- local actions = require("telescope.actions")
-
+			local open_with_trouble = function(prompt_bufnr)
+				require("trouble.sources.telescope").open(prompt_bufnr)
+			end
 			require("telescope").setup({
 				defaults = {
 					-- GENEL GÖRÜNÜM
@@ -25,6 +27,14 @@ return {
 					sorting_strategy = "ascending",
 					preview = {
 						msg_bg_fillchar = " ", -- Boş alanları temiz tutar
+					},
+					mappings = {
+						i = {
+							["<C-q>"] = open_with_trouble,
+						},
+						n = {
+							["<C-q>"] = open_with_trouble,
+						},
 					},
 
 					-- METİN AYARLARI
