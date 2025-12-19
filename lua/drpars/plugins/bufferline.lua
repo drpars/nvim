@@ -1,49 +1,50 @@
 return {
 	{
 		"akinsho/bufferline.nvim",
-		after = "catppuccin",
-		-- version = "*",
+		lazy = false,
 		dependencies = "nvim-tree/nvim-web-devicons",
 		config = function()
-			-- local mocha = require("catppuccin.palettes").get_palette("mocha")
 			local bufferline = require("bufferline")
 			bufferline.setup({
 				options = {
 					mode = "buffers",
-					style_preset = require("bufferline").style_preset.default, -- bufferline.style_preset.minimal, bufferline.style_preset.default
+					style_preset = bufferline.style_preset.default,
 					themable = true,
-					separator_style = "thin", -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
+
+					-- Birinci değer odaklı, ikinci değer odaksız buffer ayıracıdır.
+					separator_style = { "", "" },
+
 					show_buffer_close_icons = false,
+					show_close_icon = false,
 					sort_by = "insert_at_end",
+
 					indicator = {
-						icon = "|", -- this should be omitted if indicator style is not 'icon'
-						style = "underline", -- 'icon' | 'underline' | 'none',
+						style = "none",
 					},
+
+					always_show_bufferline = true,
 					show_tab_indicators = false,
-					offsets = {
-						{
-							filetype = "neo-tree",
-							text = " File Explorer",
-							highlight = "Directory",
-							separator = true,
-						},
-					},
+
+					-- Float Neo-tree kullandığın için temiz bir başlangıç
+					offsets = {},
+
+					-- İsimlerin birbirine çok yapışmaması için küçük bir padding (isteğe bağlı)
+					-- tab_size = 18,
 				},
-				-- highlights = require("catppuccin.special.bufferline").get_theme({
-				-- 	styles = { "italic", "bold" },
-				-- 	custom = {
-				-- 		all = {
-				-- 			fill = { bg = "#1E1E2E" },
-				-- 		},
-				-- mocha = {
-				-- 	background = { fg = mocha.text },
-				-- },
-				-- latte = {
-				-- 	background = { fg = "#000000" },
-				-- },
-				-- },
-				-- }),
+				highlights = {
+					-- Arka planı colorscheme şeffaflığına uyduruyoruz
+					fill = { bg = "none" },
+					background = { bg = "none" },
+					buffer_selected = { bg = "none", bold = true },
+					-- Ayraçları görsel olarak da tamamen siliyoruz
+					separator = { fg = "none", bg = "none" },
+					separator_visible = { fg = "none", bg = "none" },
+					separator_selected = { fg = "none", bg = "none" },
+				},
 			})
+
+			-- Bu ayar olmazsa olmazımız
+			vim.opt.showtabline = 2
 		end,
 	},
 }

@@ -1,25 +1,5 @@
 return {
 	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000,
-		config = function()
-			require("catppuccin").setup({
-				-- 		flavour = "mocha", -- latte, frappe, macchiato, mocha
-				transparent_background = true, -- disables setting the background color.
-				custom_highlights = {
-					NormalFloat = { bg = "none" },
-					TelescopeBorder = { bg = "none" },
-					FloatBorder = {
-						bg = "none",
-					},
-				},
-				auto_integrations = true,
-			})
-			-- vim.cmd("colorscheme catppuccin")
-		end,
-	},
-	{
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
@@ -52,3 +32,4 @@ return {
 		end,
 	},
 }
+
