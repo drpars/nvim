@@ -54,7 +54,7 @@ return {
 				"mypy",
 				"pylint",
 				"eslint_d",
-        "codespell",
+				"codespell",
 			},
 		},
 		dependencies = {

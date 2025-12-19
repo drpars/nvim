@@ -119,16 +119,27 @@ keymap("n", "<leader>zz", "<cmd>ZenMode<cr>", { desc = "Zen Mode" })
 keymap("n", "<leader>zt", "<cmd>Twilight<cr>", { desc = "Twilight Mode" })
 
 -- NEOTREE (Dosya Gezgini)
-keymap("n", "<leader>e", ":Neotree toggle<cr>", { desc = "Explorer Toggle" })
+keymap("n", "<leader>e", function()
+	-- Eğer Neo-tree zaten açıksa sadece kapat (toggle)
+	-- Eğer kapalıysa o anki dosyanın yolunu al ve aç (reveal)
+	require("neo-tree.command").execute({
+		action = "focus",
+		source = "filesystem",
+		position = "float",
+		toggle = true,
+		reveal = true, -- Bu parametre zaten %:p işini Lua tarafında güvenli yapar
+	})
+end, { desc = "Explorer Toggle & Reveal" })
 keymap("n", "-", function()
 	require("neo-tree.command").execute({
 		action = "focus", -- Pencereyi aç ve içine odaklan
 		source = "filesystem", -- Dosya sistemini kullan
 		position = "float", -- Modern yüzer stile uyumlu olsun
-		dir = vim.fn.expand("%:p:h"), -- Dinamik olarak 2 üst klasörü hesaplamak için ":h" eklemek gerekir
+		dir = vim.fn.expand("%:p:h:h"), -- Dinamik olarak her bir ":h" bir üst klasörü ifade eder
 		toggle = true, -- Basınca kapansın, basınca açılsın
+		reveal = true, -- AKTİF DOSYAYI BUL VE SEÇ
 	})
-end, { desc = "Explorer (Parent Dir) - Floating" })
+end, { desc = "Explorer (Parent Dir)" })
 
 -----------------------------------------------------------
 -- TELESCOPE (Leader + f)
@@ -156,7 +167,9 @@ end, { desc = "LSP: File Symbols" })
 -- TREESITTER (Leader + t + c)
 -----------------------------------------------------------
 
-keymap("n", "<leader>tc", function() require("treesitter-context").toggle() end, { desc = "[T]reesitter [C]ontext Toggle" })
+keymap("n", "<leader>tc", function()
+	require("treesitter-context").toggle()
+end, { desc = "[T]reesitter [C]ontext Toggle" })
 
 -----------------------------------------------------------
 -- GIT (Leader + g)

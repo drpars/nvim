@@ -57,6 +57,16 @@ return {
 	{
 		"MeanderingProgrammer/treesitter-modules.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function(_, opts)
+			-- 1. Derleyici önceliğini nvim-treesitter'a bildiriyoruz
+			require("nvim-treesitter.install").compilers = { "gcc", "clang", "zig" }
+
+			-- 2. Eğer istersen kilit dosyasını (lockfile) atlayıp git kullanmaya zorlayabilirsin
+			require("nvim-treesitter.install").prefer_git = true
+
+			-- 3. Modülü 'opts' (ensure_installed vb.) ile başlatıyoruz
+			require("treesitter-modules").setup(opts)
+		end,
 
 		opts = {
 			-- A. Parser Kurulumu
