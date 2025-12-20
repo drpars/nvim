@@ -1,7 +1,8 @@
--- 1. ADIM: Eklentisiz Akıllı Seçim Mantığı (selection.lua, range.lua, nodes.lua özeti)
+-- =============================================================================
+-- 1. ADIM: Gelişmiş Akıllı Seçim Mantığı (SmartSelection)
+-- =============================================================================
 local SmartSelection = {}
 
--- Nodes Stack yönetimi (nodes.lua'dan)
 SmartSelection.stack = {
 	entries = {},
 	get = function(self, buf)
@@ -17,9 +18,9 @@ SmartSelection.stack = {
 	pop = function(self, buf)
 		local nodes = self:get(buf)
 		if #nodes > 0 then
-			table.remove(nodes)
+			return table.remove(nodes) -- Çıkarılan node'u döndür.
 		end
-		return nodes[#nodes]
+		return nil
 	end,
 	last = function(self, buf)
 		local nodes = self:get(buf)
@@ -27,18 +28,17 @@ SmartSelection.stack = {
 	end,
 }
 
--- Görsel aralık yönetimi (range.lua'dan)
 SmartSelection.get_node_range = function(node)
 	local srow, scol, erow, ecol = node:range()
 	if ecol == 0 then
 		erow = erow - 1
-		local line = vim.api.nvim_buf_get_lines(0, erow, erow + 1, false)[1]
+		local lines = vim.api.nvim_buf_get_lines(0, erow, erow + 1, false)
+		local line = lines[1] or ""
 		ecol = math.max(#line, 1)
 	end
 	return { srow, scol, erow, ecol - 1 }
 end
 
--- Seçim işlemi (selection.lua'dan)
 SmartSelection.select = function(node)
 	local r = SmartSelection.get_node_range(node)
 	if vim.api.nvim_get_mode().mode ~= "v" then
@@ -49,7 +49,6 @@ SmartSelection.select = function(node)
 	vim.api.nvim_win_set_cursor(0, { r[3] + 1, r[4] })
 end
 
--- Tetikleyici Fonksiyonlar (incremental.lua'dan esinlenildi)
 SmartSelection.init = function()
 	local buf = vim.api.nvim_get_current_buf()
 	local node = vim.treesitter.get_node({ bufnr = buf, ignore_injections = false })
@@ -59,6 +58,7 @@ SmartSelection.init = function()
 	end
 end
 
+-- VİTES 1: Adım Adım Büyütme (Node)
 SmartSelection.incremental = function()
 	local buf = vim.api.nvim_get_current_buf()
 	local last = SmartSelection.stack:last(buf)
@@ -71,6 +71,30 @@ SmartSelection.incremental = function()
 	end
 end
 
+-- VİTES 2: Keskin Kapsam Zıplatma (Scope)
+SmartSelection.scope_incremental = function()
+	local buf = vim.api.nvim_get_current_buf()
+	local last = SmartSelection.stack:last(buf)
+	if not last then
+		SmartSelection.init()
+		last = SmartSelection.stack:last(buf)
+	end
+	if last and last:parent() then
+		local parent = last:parent()
+		local srow, _, erow, _ = last:range()
+		-- Alan genişleyene kadar ağaçta yukarı çık (Scope jumping)
+		while parent:parent() do
+			local psrow, _, perow, _ = parent:range()
+			if psrow ~= srow or perow ~= erow then
+				break
+			end
+			parent = parent:parent()
+		end
+		SmartSelection.stack:push(buf, parent)
+		SmartSelection.select(parent)
+	end
+end
+
 SmartSelection.decremental = function()
 	local buf = vim.api.nvim_get_current_buf()
 	local node = SmartSelection.stack:pop(buf)
@@ -79,7 +103,9 @@ SmartSelection.decremental = function()
 	end
 end
 
--- 2. ADIM: Standart Treesitter Kurulumu
+-- =============================================================================
+-- 2. ADIM: Standart Treesitter Kurulumu (Tüm Parserlar Dahil)
+-- =============================================================================
 local my_parsers = {
 	"bash",
 	"c",
@@ -112,30 +138,35 @@ local my_parsers = {
 	"rasi",
 }
 
+-- Kurulum dizinini düzgün ayarla
+local parser_install_dir = vim.fs.normalize(vim.fn.stdpath("data") .. "/site")
+vim.opt.runtimepath:append(parser_install_dir)
+
 require("nvim-treesitter.config").setup({
-	install_dir = vim.fn.stdpath("data") .. "/site/parser",
+	install_dir = parser_install_dir,
 	highlight = { enable = true, additional_vim_regex_highlighting = false },
 	indent = { enable = true },
 	context_commentstring = { enable = true },
-	-- Yerleşik incremental_selection'ı kapatıyoruz çünkü yukarıdaki SmartSelection'ı kullanacağız
 	incremental_selection = { enable = false },
 })
 
--- Derleyici ayarları (Windows'ta çalışan halini koruyoruz)
-require("nvim-treesitter.install").prefer_git = false
-require("nvim-treesitter.install").compilers = { "gcc", "clang", "zig" }
+-- =============================================================================
+-- 3. ADIM: Keymap'ler (C-space ve Alt-space)
+-- =============================================================================
+vim.keymap.set("n", "<C-space>", SmartSelection.init, { silent = true, desc = "TS Init" })
+vim.keymap.set("x", "<C-space>", SmartSelection.incremental, { silent = true, desc = "TS Incremental" })
+-- Meta (Alt) + Space: Scope Incremental
+vim.keymap.set("x", "<M-space>", SmartSelection.scope_incremental, { silent = true, desc = "TS Scope Jump" })
+vim.keymap.set("x", "<bs>", SmartSelection.decremental, { silent = true, desc = "TS Decremental" })
 
--- 3. ADIM: Keymap'leri Tanımlama (C-space ve Backspace)
-vim.keymap.set("n", "<C-space>", SmartSelection.init, { silent = true, desc = "TS Smart Init" })
-vim.keymap.set("x", "<C-space>", SmartSelection.incremental, { silent = true, desc = "TS Smart Incremental" })
-vim.keymap.set("x", "<bs>", SmartSelection.decremental, { silent = true, desc = "TS Smart Decremental" })
-
--- 4. ADIM: Otomatik Kurulum (Windows kilitlenmesini önlemek için asenkron)
+-- =============================================================================
+-- 4. ADIM: Otomatik Kurulum (Sync: False yaptık ki açılışta donmasın)
+-- =============================================================================
 vim.api.nvim_create_autocmd("VimEnter", {
 	group = vim.api.nvim_create_augroup("TreesitterFinalInstall", { clear = true }),
 	once = true,
 	callback = function()
-		-- sync=false yaparak wait() donmasını engelliyoruz
-		require("nvim-treesitter.install").install(my_parsers, { with_sync = false })
+		-- Yeni API'ye göre install fonksiyonu 'nvim-treesitter' modülünde.
+		require("nvim-treesitter").install(my_parsers, { with_sync = false })
 	end,
 })
