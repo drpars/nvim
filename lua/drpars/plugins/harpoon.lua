@@ -16,7 +16,7 @@ return {
 		end, { desc = "Harpoon: Add file" })
 
 		-- Standart Harpoon Menüsünü Aç (Düzenleme yapmak için: dd ile silme, yer değiştirme vb.)
-		keymap("n", "<C-A-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: Quick Menu" })
+		keymap("n", "<C-M-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon: Quick Menu" })
 
 		-- --- HIZLI ERİŞİM (LEADER + SAYI) ---
 		keymap("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Harpoon: File 1" })
@@ -46,6 +46,6 @@ return {
 		end
 
 		-- Telescope ile Harpoon'u aç (Kısayol: Control + Alt + h)
-		keymap("n", "<C-A-h>", function() toggle_telescope(harpoon:list()) end, { desc = "Harpoon: Open with Telescope" })
+		keymap("n", "<C-M-h>", function() toggle_telescope(harpoon:list()) end, { desc = "Harpoon: Open with Telescope" })
 	end,
 }

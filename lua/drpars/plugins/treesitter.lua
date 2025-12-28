@@ -23,7 +23,7 @@ return {
 			event = "BufReadPost",
 			config = function()
 				require("treesitter-context").setup({
-					enable = true,
+					enable = false,
 					max_lines = 0,
 					min_rows = 10,
 					zindex = 20,

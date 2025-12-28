@@ -1,16 +1,31 @@
-local keymap = vim.keymap -- for conciseness
-
--- 1. Yüzer Pencere (Hover/Signature) Global Ayarları (Modern Yöntem)
--- Bu kısım handlers yerine geçer ve uyarı vermez.
+local keymap = vim.keymap
 local _border = "rounded"
 
+-- [ 1. MODERN UI OVERRIDE ] --------------------------------------------------
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+
+---@diagnostic disable-next-line: duplicate-set-field
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+	---@class vim.lsp.util.open_floating_preview.Opts
+	---@field winhighlight? string
+	opts = opts or {}
+	opts.border = opts.border or _border
+	opts.winhighlight = opts.winhighlight or "Normal:NormalFloat,FloatBorder:DiagnosticInfo"
+	opts.max_height = opts.max_height or 25
+	opts.max_width = opts.max_width or 120
+
+	return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
+-- [ 2. LSP ATTACH ] -----------------------------------------------------------
+-- Bu blok, bir LSP sunucusu dosyaya bağlandığında çalışır.
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
 		local opts = { buffer = ev.buf, silent = true }
 
 		-- [ KEYMAPS ] -----------------------------------------------------------
-
 		opts.desc = "Show LSP references"
 		keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
 
@@ -55,14 +70,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.diagnostic.jump({ count = 1, float = { border = _border } })
 		end, opts)
 
-		-- Hover (Dökümantasyon)
 		opts.desc = "Show documentation"
-		keymap.set("n", "K", function()
-			vim.lsp.buf.hover({
-				border = _border,
-				max_height = 25,
-				max_width = 120,
-			})
+		keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+		opts.desc = "Show function signature"
+		keymap.set("i", "<C-k>", function()
+			vim.lsp.buf.signature_help()
 		end, opts)
 
 		opts.desc = "Restart LSP"
@@ -70,11 +83,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- 2. Diagnostic (Teşhis) Ayarları -------------------------------------------
+-- [ 3. DIAGNOSTIC CONFIG ] -----------------------------------------------------
+-- Hata ve uyarıların (Diagnostics) genel görünümü
 local severity = vim.diagnostic.severity
 
 vim.diagnostic.config({
-	virtual_text = true,
+	virtual_text = {
+		spacing = 4,
+		prefix = "●",
+	},
 	signs = {
 		text = {
 			[severity.ERROR] = " ",
@@ -83,12 +100,13 @@ vim.diagnostic.config({
 			[severity.INFO] = " ",
 		},
 	},
-	-- Pencere açıldığında (float) kullanılacak ayarlar:
+	-- leader+d ile açılan pencere ayarları
 	float = {
 		border = _border,
-		source = true, -- Hangi dil sunucusundan geldiğini gösterir
-		header = "", -- Başlığı boş bırakır (daha temiz görünür)
+		source = "if_many",
+		header = "",
 		prefix = "",
+		winhighlight = "Normal:NormalFloat,FloatBorder:DiagnosticInfo",
 	},
 	update_in_insert = false,
 	underline = true,

@@ -58,7 +58,7 @@ return {
 							key_format = " %s",
 						},
 						{
-							action = "Telescope file_browser path=~/.config/nvim/lua/drpars/core",
+							action = "Telescope file_browser path=~/.config/nvim/lua/drpars",
 							desc = " Config",
 							icon = " ",
 							key = "c",

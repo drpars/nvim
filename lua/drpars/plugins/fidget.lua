@@ -7,6 +7,8 @@ return {
 				notification = {
 					window = {
 						winblend = 0,
+						winhighlight = "Normal:Normal,FloatBorder:DiagnosticInfo",
+						-- border = "rounded",
 					},
 				},
 			})
