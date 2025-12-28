@@ -145,12 +145,12 @@ end, { desc = "Explorer (Parent Dir)" })
 -- TELESCOPE (Leader + f)
 -----------------------------------------------------------
 
-keymap("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
-keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
-keymap("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
+keymap("n", "ff", "<cmd>Telescope find_files<cr>", { desc = "Find Files" })
+keymap("n", "fr", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
+keymap("n", "fg", "<cmd>Telescope live_grep<cr>", { desc = "Live Grep" })
 keymap("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
-keymap("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help" })
-keymap("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
+keymap("n", "fh", "<cmd>Telescope help_tags<cr>", { desc = "Help" })
+keymap("n", "fk", "<cmd>Telescope keymaps<cr>", { desc = "Keymaps" })
 keymap("n", "fb", "<cmd>:Telescope file_browser path=%:p:h select_buffer=true<cr>", { desc = "Telescope File Browser" })
 
 -- TELESCOPE GIT (Leader + t + g)
