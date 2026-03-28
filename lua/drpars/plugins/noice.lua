@@ -23,12 +23,10 @@ return {
 				size = { width = 60, height = "auto" },
 				border = {
 					style = "rounded",
-					padding = { 0, 0 }, -- Üst/Alt ve Sağ/Sol dolguyu tamamen sıfırladık
+					padding = { 0, 0 },
 				},
 				win_options = {
 					winblend = 0,
-					-- Çerçeve rengini resimdeki gibi turkuaz/mavi yapmak için DiagnosticInfo kullandık
-					winhighlight = "Normal:NormalFloat,FloatBorder:DiagnosticInfo",
 				},
 			},
 			popupmenu = {
@@ -37,11 +35,10 @@ return {
 				size = { width = 60, height = 10 },
 				border = {
 					style = "rounded",
-					padding = { 0, 0 }, -- Öneri listesindeki boşluğu da sıfırladık
+					padding = { 0, 0 },
 				},
 				win_options = {
 					winblend = 0,
-					winhighlight = "Normal:NormalFloat,FloatBorder:DiagnosticInfo",
 				},
 			},
 		},
