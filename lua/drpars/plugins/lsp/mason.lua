@@ -18,6 +18,7 @@ return {
 				"emmet_ls",
 				"prismals",
 				"eslint",
+				"biome",
 			},
 		},
 		dependencies = {
@@ -46,6 +47,7 @@ return {
 				"shellcheck",
 				"clang-format",
 				"hyprls",
+        "json-lsp",
 				"prettier",
 				"black",
 				"debugpy",
@@ -55,6 +57,7 @@ return {
 				"pylint",
 				"eslint_d",
 				"codespell",
+        "yaml-language-server"
 			},
 		},
 		dependencies = {

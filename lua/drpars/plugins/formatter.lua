@@ -26,6 +26,12 @@ return {
 						"$FILENAME",
 					},
 				},
+				shfmt = {
+					-- -i 2: 2 boşluk girinti (Arch/Hyprland scriptleri için idealdir)
+					-- -ci: Switch/Case bloklarını içeri kaydırır
+					-- -sr: Yönlendirme operatörlerinden (>) sonra boşluk bırakır
+					prepend_args = { "-i", "2", "-ci", "-sr" },
+				},
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
@@ -40,7 +46,8 @@ return {
 				svelte = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
-				json = { "prettier" },
+				json = { "biome" },
+				jsonc = { "biome" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
