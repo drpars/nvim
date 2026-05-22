@@ -1,18 +1,14 @@
--- nvim-treesitter API'sini kullanarak kurulu dilleri güvenli bir şekilde alır.
 local function get_installed_ft()
-	local parsers_ok, parsers = pcall(require, "nvim-treesitter.parsers")
-
-	if not parsers_ok or not parsers.get_installed_parsers then
-		return {}
+	local ok, result = pcall(vim.treesitter.get_installed_parsers)
+	if ok and type(result) == "table" then
+		return vim.tbl_keys(result)
 	end
-
-	return vim.tbl_keys(parsers.get_installed_parsers())
+	return {}
 end
 
 return {
 	{
 		"Wansmer/treesj",
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
 
 		-- Eklenti yapılandırması (config)
 		config = function()

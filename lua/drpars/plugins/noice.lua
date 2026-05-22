@@ -5,7 +5,7 @@ return {
 	opts = {
 		cmdline = { enabled = true, view = "cmdline_popup" },
 		popupmenu = { enabled = true, backend = "nui" },
-		messages = { enabled = true },
+		messages = { enabled = true, view = "notify" },
 		notify = { enabled = true },
 		lsp = {
 			progress = { enabled = false },

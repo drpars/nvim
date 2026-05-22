@@ -6,7 +6,7 @@ return {
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,
-					theme = "tokyonight",
+					theme = "auto",
 					-- Kapsül görünümü için ana ayırıcılar
 					section_separators = { left = "", right = "" },
 					-- Bileşenler arasındaki çizgiyi kaldırıp boşluk bırakıyoruz

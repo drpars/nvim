@@ -9,8 +9,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Treesitter ile kurulan ayrıştırıcılar veya çözümleyiciler (parsers)
+-- User command to list installed treesitter parsers (Neovim 0.12 built-in)
 vim.api.nvim_create_user_command("TSInstalledLanguages", function()
-	local installed_parsers = require("nvim-treesitter").get_installed()
-	vim.print(installed_parsers)
+	local parsers = vim.treesitter.get_installed_parsers()
+	vim.print(vim.tbl_keys(parsers))
 end, { desc = "Kurulu Treesitter ayrıştırıcılarını listeler" })
+
+-- Filetype detection for YUCK (EWW)
+vim.filetype.add({ extension = { yuck = "yuck" } })

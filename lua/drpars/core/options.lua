@@ -47,7 +47,9 @@ opt.clipboard:append("unnamedplus")         -- Sistem Panosu: Kopyalama/yapışt
 -----------------------------------------------------------
 
 opt.swapfile = false                        -- Takas Dosyası: Takas (swap) dosyaları oluşturulmasını devre dışı bırakır.
-opt.backup = false                          -- Yedek Dosyası: Yedek dosyası oluşturulmasını devre dışı bırakır.
+opt.backup = false
+opt.undofile = true
+opt.undodir = vim.fn.stdpath('state') .. '/undodir'                          -- Yedek Dosyası: Yedek dosyası oluşturulmasını devre dışı bırakır.
 opt.writebackup = false                     -- Yazma Yedeklemesi: Dosya yazılırken geçici yedek oluşturulmasını devre dışı bırakır.
 opt.splitright = true                       -- Dikey Bölme: Dikey bölünmüş pencerelerin sağa açılmasını sağlar.
 opt.splitbelow = true                       -- Yatay Bölme: Yatay bölünmüş pencerelerin alta açılmasını sağlar.

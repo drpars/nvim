@@ -104,68 +104,12 @@ SmartSelection.decremental = function()
 end
 
 -- =============================================================================
--- 2. ADIM: Standart Treesitter Kurulumu (Tüm Parserlar Dahil)
--- =============================================================================
-local my_parsers = {
-	"bash",
-	"c",
-	"cpp",
-	"css",
-	"diff",
-	"html",
-	"hyprlang",
-	"javascript",
-	"jsdoc",
-	"json",
-	"lua",
-	"luadoc",
-	"luap",
-	"prisma",
-	"markdown",
-	"markdown_inline",
-	"python",
-	"query",
-	"regex",
-	"toml",
-	"tsx",
-	"dockerfile",
-	"gitignore",
-	"typescript",
-	"vim",
-	"vimdoc",
-	"yaml",
-	"rasi",
-}
-
--- Kurulum dizinini düzgün ayarla
-local parser_install_dir = vim.fs.normalize(vim.fn.stdpath("data") .. "/site")
-vim.opt.runtimepath:append(parser_install_dir)
-
-require("nvim-treesitter.config").setup({
-	install_dir = parser_install_dir,
-	highlight = { enable = true, additional_vim_regex_highlighting = false },
-	indent = { enable = true },
-	context_commentstring = { enable = true },
-	incremental_selection = { enable = false },
-})
-
--- =============================================================================
--- 3. ADIM: Keymap'ler (C-space ve Alt-space)
+-- 2. ADIM: Keymap'ler (C-space ve Alt-space)
 -- =============================================================================
 vim.keymap.set("n", "<C-space>", SmartSelection.init, { silent = true, desc = "TS Init" })
 vim.keymap.set("x", "<C-space>", SmartSelection.incremental, { silent = true, desc = "TS Incremental" })
--- Meta (Alt) + Space: Scope Incremental
 vim.keymap.set("x", "<M-space>", SmartSelection.scope_incremental, { silent = true, desc = "TS Scope Jump" })
 vim.keymap.set("x", "<bs>", SmartSelection.decremental, { silent = true, desc = "TS Decremental" })
 
--- =============================================================================
--- 4. ADIM: Otomatik Kurulum (Sync: False yaptık ki açılışta donmasın)
--- =============================================================================
-vim.api.nvim_create_autocmd("VimEnter", {
-	group = vim.api.nvim_create_augroup("TreesitterFinalInstall", { clear = true }),
-	once = true,
-	callback = function()
-		-- Yeni API'ye göre install fonksiyonu 'nvim-treesitter' modülünde.
-		require("nvim-treesitter").install(my_parsers, { with_sync = false })
-	end,
-})
+-- Treesitter highlight & indent 0.12'de varsayılan açık, ek yapılandırma gerekmez.
+-- Ek parser kurmak için: :TSInstall <dil> (tree-sitter-cli gerekli)
