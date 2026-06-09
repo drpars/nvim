@@ -31,10 +31,10 @@ keymap("n", "<C-k>", "<C-w>k", { desc = "Navigate Up" })
 keymap("n", "<C-l>", "<C-w>l", { desc = "Navigate Right" })
 
 -- Yatay Bölme: Yeni pencereyi yatay böler.
-keymap("n", "ss", ":split<Return>", opts)
+keymap("n", "ss", ":split<Return>", { silent = true, desc = "Split Horizontal" })
 
 -- Dikey Bölme: Yeni pencereyi dikey böler.
-keymap("n", "sv", ":vsplit<Return>", opts)
+keymap("n", "sv", ":vsplit<Return>", { silent = true, desc = "Split Vertical" })
 
 -- Boyutlandırma (Resize): Alt+Ok tuşlarıyla pencere boyutunu değiştirme.
 keymap("n", "<A-Up>", ":resize +1<cr>", { desc = "Resize Up" })
@@ -80,8 +80,8 @@ keymap("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 keymap("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- Girintide Kalma: Visual modda (< veya >) sonrası seçimi koruma.
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+keymap("v", "<", "<gv", { silent = true, desc = "Indent Left (keep selection)" })
+keymap("v", ">", ">gv", { silent = true, desc = "Indent Right (keep selection)" })
 
 -- Yapıştırma Düzeltmesi (Visual Mod): Seçilen metni yapıştırırken, silinen metnin isimsiz kaydediciye yazılmasını engeller.
 keymap("v", "p", '"_dP', { remap = false, desc = "Paste without overwriting yank register" })
@@ -95,6 +95,10 @@ keymap("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Dashboard: Başlangıç menüsünü açar.
 keymap("n", ",", "<cmd>Dashboard<cr>", { desc = "Menu" })
+
+-- Cheatsheet: Tüm keymapleri gösteren cheatsheet'i açar.
+keymap("n", "<leader>k", "<cmd>Cheatsheet<cr>", { desc = "Keymaps Cheatsheet" })
+keymap("n", "<F1>", "<cmd>Cheatsheet<cr>", { desc = "Keymaps Cheatsheet" })
 
 -- Colorizer: Renk kodlarını vurgular/gizler.
 keymap("n", "<leader>c", "<cmd>ColorizerToggle<cr>", { desc = "Colorizer Toggle" })

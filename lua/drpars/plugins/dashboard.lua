@@ -72,6 +72,7 @@ return {
 							key_format = " %s",
 						},
 						{ action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l", key_format = " %s" },
+						{ action = "Cheatsheet", desc = " Keymaps", icon = "󰧹 ", key = "k", key_format = " %s" },
 						{ action = "qa", desc = " Quit", icon = " ", key = "q", key_format = " %s" },
 					},
 				}, --  config used for theme

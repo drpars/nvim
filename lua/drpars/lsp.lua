@@ -61,12 +61,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, opts)
 
 		opts.desc = "Go to previous diagnostic"
-		keymap.set("n", "ğd", function()
+		keymap.set("n", "[d", function()
 			vim.diagnostic.jump({ count = -1, float = { border = _border } })
 		end, opts)
 
 		opts.desc = "Go to next diagnostic"
-		keymap.set("n", "üd", function()
+		keymap.set("n", "]d", function()
 			vim.diagnostic.jump({ count = 1, float = { border = _border } })
 		end, opts)
 

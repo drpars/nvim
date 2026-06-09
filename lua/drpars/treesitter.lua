@@ -97,7 +97,9 @@ end
 
 SmartSelection.decremental = function()
 	local buf = vim.api.nvim_get_current_buf()
-	local node = SmartSelection.stack:pop(buf)
+	-- Üstteki (mevcut) node'u at, bir alttakine küçül.
+	SmartSelection.stack:pop(buf)
+	local node = SmartSelection.stack:last(buf)
 	if node then
 		SmartSelection.select(node)
 	end
@@ -111,5 +113,6 @@ vim.keymap.set("x", "<C-space>", SmartSelection.incremental, { silent = true, de
 vim.keymap.set("x", "<M-space>", SmartSelection.scope_incremental, { silent = true, desc = "TS Scope Jump" })
 vim.keymap.set("x", "<bs>", SmartSelection.decremental, { silent = true, desc = "TS Decremental" })
 
--- Treesitter highlight & indent 0.12'de varsayılan açık, ek yapılandırma gerekmez.
--- Ek parser kurmak için: :TSInstall <dil> (tree-sitter-cli gerekli)
+-- Treesitter highlight 0.12'de parser'ı olan dosyalarda varsayılan açık (indent değil;
+-- indent için standart ftplugin indentexpr'i kullanılır).
+-- Kurulu parserları listelemek için: :TSInstalledLanguages
