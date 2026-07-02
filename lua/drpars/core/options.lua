@@ -47,6 +47,7 @@ opt.clipboard:append("unnamedplus")         -- Sistem Panosu: Kopyalama/yapışt
 -----------------------------------------------------------
 
 opt.swapfile = false                        -- Takas Dosyası: Takas (swap) dosyaları oluşturulmasını devre dışı bırakır.
+opt.autoread = true                         -- Otomatik Okuma: Dosya disk üzerinde (örn. Claude) değişince buffer'ı yeniden okur.
 opt.backup = false
 opt.undofile = true
 opt.undodir = vim.fn.stdpath('state') .. '/undodir'                          -- Yedek Dosyası: Yedek dosyası oluşturulmasını devre dışı bırakır.
