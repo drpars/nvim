@@ -1,1 +1,5 @@
 lazy-lock.json
+
+# AI araç dizinleri (otomatik üretilen talimatlar/ayarlar)
+.codewhale/
+.claude/
