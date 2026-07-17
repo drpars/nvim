@@ -63,3 +63,13 @@ opt.wildmenu = true                      -- Komut satırı tamamlamasını aktif
 opt.wildmode = "longest:full,full"       -- İlk Tab'da ortak kısmı tamamlar, ikincide listeyi açar.
 opt.wildoptions = "pum"                  -- Tamamlamayı popup menü (pum) şeklinde gösterir (Noice ile uyumludur).
 opt.wildignore:append({ "*.pyc", "**/node_modules/*", "**/.git/*", "*.zip", "*.png", "*.jpg" }) -- Gereksiz dosyaları gizler.
+
+-----------------------------------------------------------
+-- UYUMLULUK (DEPRECATION SHIM)
+-----------------------------------------------------------
+
+-- nvim-lsp-file-operations vb. eski eklentiler vim.lsp.get_active_clients() kullanıyor (Neovim >=0.10'da deprecated).
+-- Yeni API'ye alias'layarak hata mesajını susturuyoruz.
+if vim.lsp.get_active_clients then
+  vim.lsp.get_active_clients = vim.lsp.get_clients
+end
