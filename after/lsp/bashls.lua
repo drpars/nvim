@@ -8,5 +8,8 @@ return {
       shellcheckArguments = {},
     },
   },
-  filetypes = { "sh", "bash", "zsh" }, -- Zsh dosyalarında da temel destek sağlar
+  -- zsh BİLEREK yok: bashls shellcheck'i çağırıyor, shellcheck ise zsh
+  -- desteklemiyor ("Unknown shell: zsh"). Zsh dosyaları eklenirse geçerli kod
+  -- (${(s.:.)VAR}, _comps[...], zstyle '...$realpath') hata olarak işaretlenir.
+  filetypes = { "sh", "bash" },
 }

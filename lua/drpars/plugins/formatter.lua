@@ -37,8 +37,9 @@ return {
 				lua = { "stylua" },
 				sh = { "shfmt" },
 				bash = { "shfmt" },
-				zsh = { "shfmt" },
-				zshrc = { "shfmt" },
+				-- zsh yok: shfmt zsh bilmiyor (bash/posix/mksh/bats). Sözdizimini
+				-- bozmuyor ama bindkey/setopt bloklarındaki elle yapılan sütun
+				-- hizalamasını eziyor. ("zshrc" diye bir filetype da yok.)
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				javascriptreact = { "prettier" },
