@@ -42,3 +42,9 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 
 -- Filetype detection for YUCK (EWW)
 vim.filetype.add({ extension = { yuck = "yuck" } })
+
+-- waybar yapılandırması yorum satırı kabul eder, ama dosya adları .json.
+-- Neovim yalnızca `waybar/config`i jsonc sayıyor; modules.json gibi kardeşleri
+-- `json` kalıyor ve jsonls yorumlara "Comments are not permitted in JSON" basıyor
+-- (sunucu, comments=error'ü doğrudan languageId ~= "jsonc" olmasına bağlıyor).
+vim.filetype.add({ pattern = { [".*/waybar/.*%.json"] = "jsonc" } })
