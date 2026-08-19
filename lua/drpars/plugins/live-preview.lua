@@ -7,6 +7,12 @@ return {
 	},
 	opts = {
 		dynamic_root = true, -- dosya cwd dışında olsa bile çalışır, URL'de sadece dosya adı olur
+		-- Çalışılan workspace'te açılsın diye yeni pencere isteniyor. Düz `xdg-open`
+		-- (browser = "default" → vim.ui.open) çalışan Firefox örneğine uzak komut
+		-- yolluyor, o da sekmeyi kendi penceresinin durduğu workspace'te açıyor;
+		-- yeni pencere doğmadığı için Hyprland yerleştirecek bir şey bulamıyor.
+		-- Argüman geçebiliyoruz: term_cmd komutu `sh -c` ile koşturuyor.
+		browser = "firefox --new-window",
 	},
 	keys = {
 		{ "<leader>p",  "",                             desc = "+preview", mode = { "n", "v" } },
