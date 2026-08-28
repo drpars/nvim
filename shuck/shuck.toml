@@ -5,9 +5,13 @@
 # sürümlenmiyor. after/lsp/shuck.lua bunun yerine SHUCK_CONFIG_HOME'u bu
 # dizine çeviriyor, böylece ayar config'le birlikte taşınıyor.
 #
-# Proje kökündeki bir shuck.toml bunu EZER (ölçüldü 2026-08-28): proje yalnız
-# C001'i susturunca C003/C005/C006 geri geldi. Yani bir projeye özel kural
-# gerekiyorsa oraya kendi shuck.toml'u konur.
+# Proje kökündeki bir shuck.toml VEYA .shuck.toml bunu EZER (ölçüldü 2026-08-28
+# ve 2026-08-29): proje yalnız C001'i susturunca C003/C005/C006 geri geldi.
+# Birleşme yok, değiştirme var; ikisi birden varsa noktalı olan kazanır ve
+# `extend` mirası taşımıyor. Yani bir projeye özel kural gerekiyorsa oraya kendi
+# config'i konur ve aşağıdaki liste orada TEKRAR YAZILIR, yoksa dördü de geri
+# gelir (C006 sahte ve `error` seviyesinde). Noktalı ad ayrıca lspconfig'in
+# root_markers'ı. Ölçüm: ~/Belgeler/pars/nvim/NOTLAR.md, 2026-08-29.
 
 [lint]
 # Dördü de bu makinede sahte pozitif üretti (shuck 0.1.3, gerçek .zshrc
