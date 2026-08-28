@@ -8,11 +8,23 @@
 -- hiçbir şey yapmaz.
 -- SmartSelection lua/drpars/treesitter.lua'da tanımlı.
 
--- yuck bilerek listede yok: parser'ı ve sorguları tree-sitter-yuck eklentisinden
--- geliyor. jsonc de yok — ayrı gramer değil, filetype olarak json'a eşleniyor.
+-- jsonc listede yok: ayrı gramer değil, filetype olarak json'a eşleniyor.
+-- `conf` ve `norg` için gramer yok (ölçüldü); onlar regex syntax'ta kalıyor.
 local diller = {
 	"bash",
 	"c",
+	"cmake",
+	"cpp",
+	"desktop",
+	"dockerfile",
+	"ini",
+	"liquid",
+	"make",
+	"prisma",
+	"sql",
+	"xml",
+	"yuck",
+	"zsh",
 	"css",
 	"diff",
 	"git_config",
