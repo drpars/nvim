@@ -19,6 +19,7 @@ return {
 				"prismals",
 				"eslint",
 				"biome",
+				"shuck", -- zsh; after/lsp/shuck.lua filetype'ı daraltıyor
 			},
 		},
 		dependencies = {

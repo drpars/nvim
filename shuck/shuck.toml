@@ -1,0 +1,22 @@
+# shuck (zsh LSP) kullanıcı düzeyi ayarı.
+#
+# Buraya, depoya konmasının sebebi: shuck'ın gerçek kullanıcı ayarı
+# XDG_CONFIG_HOME/shuck/shuck.toml'da aranıyor ve orası hiçbir depoda
+# sürümlenmiyor. after/lsp/shuck.lua bunun yerine SHUCK_CONFIG_HOME'u bu
+# dizine çeviriyor, böylece ayar config'le birlikte taşınıyor.
+#
+# Proje kökündeki bir shuck.toml bunu EZER (ölçüldü 2026-08-28): proje yalnız
+# C001'i susturunca C003/C005/C006 geri geldi. Yani bir projeye özel kural
+# gerekiyorsa oraya kendi shuck.toml'u konur.
+
+[lint]
+# Dördü de bu makinede sahte pozitif üretti (shuck 0.1.3, gerçek .zshrc
+# üzerinde 15 bulgunun 15'i):
+#   C001 zsh'in kendi tükettiği değişkenleri "atanmış ama kullanılmamış" sayıyor
+#        (HISTFILE, HISTSIZE, SAVEHIST, ZSH_AUTOSUGGEST_STRATEGY).
+#   C003 "source edilen dosya bu analizde yok" — bilgi notu, kusur değil.
+#   C005 tek tırnak içindeki genişletmeyi uyarıyor; zstyle fzf-preview
+#        dizelerinde genişletme bilerek sonraya bırakılıyor.
+#   C006 birleşik dizi indisini değişken referansı sanıyor
+#        (`_comps[zinit]=_zinit`); zsh'te geçerli, üstelik `error` seviyesinde.
+ignore = ["C001", "C003", "C005", "C006"]
