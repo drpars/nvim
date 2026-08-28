@@ -91,9 +91,13 @@ return {
 		event = "BufReadPost",
 		config = function()
 			require("treesitter-context").setup({
-				enable = false,
-				max_lines = 0,
-				min_rows = 10,
+				enable = true,
+				max_lines = 0, -- 0 = sınırsız
+				-- `min_rows` diye bir seçenek YOK; doğru adı min_window_height ve
+				-- eski satır sessizce yok sayılıyordu (ölçüldü 2026-08-28,
+				-- config.lua'nın kabul ettiği anahtarlar arasında geçmiyor).
+				-- Anlamı: pencere bundan kısaysa bağlam şeridi çizilmez.
+				min_window_height = 10,
 				zindex = 20,
 				mode = "cursor",
 			})
