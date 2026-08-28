@@ -41,23 +41,31 @@ return {
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		opts = {
+			-- Buraya bir araç eklemek onu yalnız KURAR; çağıran bir şey yoksa
+			-- sessizce durur. Ölçüldü (2026-08-28) ve çıkarılanlar:
+			--   flake8, pylint, mypy -> hiçbir linter eklentisi yok; lint işini
+			--     ruff (LSP), tip denetimini pyright yapıyor.
+			--   clang-format         -> conform'da c/cpp girdisi yok; biçimlendirme
+			--     lsp_format fallback ile clangd'ye gidiyor, o da kendi
+			--     clang-format'ını taşıyor.
+			--   eslint_d             -> conform onu çağırmıyor; eslint LSP kendi
+			--     linter'ıyla geliyor.
+			-- Geri kalanların hepsinin çağıran yeri var: formatter.lua (stylua,
+			-- shfmt, prettier, black, isort, codespell), after/lsp/bashls.lua
+			-- (shellcheck), dap.lua (debugpy), artı LSP olarak kurulu oldukları
+			-- için etkinleşenler (hyprls, json-lsp, yaml-language-server).
 			ensure_installed = {
 				"stylua",
 				"shfmt",
 				"shellcheck",
-				"clang-format",
 				"hyprls",
-        "json-lsp",
+				"json-lsp",
 				"prettier",
 				"black",
 				"debugpy",
-				"flake8",
 				"isort",
-				"mypy",
-				"pylint",
-				"eslint_d",
 				"codespell",
-        "yaml-language-server"
+				"yaml-language-server",
 			},
 		},
 		dependencies = {
