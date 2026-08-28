@@ -1,118 +1,43 @@
--- =============================================================================
--- 1. ADIM: Gelişmiş Akıllı Seçim Mantığı (SmartSelection)
--- =============================================================================
-local SmartSelection = {}
+-- Treesitter düğümlerine göre artımlı seçim.
+--
+-- Gövde nvim 0.12'nin gömülü `vim.treesitter.select()`'ine devredildi; eskiden
+-- burada elle tutulan bir düğüm yığını (~115 satır) vardı ve ölçüldüğünde
+-- (2026-08-28) genişletme adımları gömülü olanla **birebir** aynıydı:
+-- 2:18 -> 2:14-2:18 -> 2:13-2:19 -> 2:13-2:23. Gömülünün fazlası da var:
+-- parser yoksa `vim.lsp.buf.selection_range()`'e düşüyor, elle yazılan sessizce
+-- hiçbir şey yapmıyordu.
+--
+-- Kalan tek yerel parça kapsam zıplaması: gömülü `select()` yalnız bir düğüm
+-- yukarı çıkıyor, <M-space> ise SATIR aralığı değişene kadar çıkıyor — yani
+-- ifadenin içinde oyalanmadan kapsayan bloğa/fonksiyona atlıyor.
+-- Varsayılan `an`/`in` eşlemeleri de yerinde duruyor; bunlar onların
+-- <C-space>/<bs> ile kullanılan biçimi.
 
-SmartSelection.stack = {
-	entries = {},
-	get = function(self, buf)
-		local tick = vim.api.nvim_buf_get_changedtick(buf)
-		if not self.entries[buf] or self.entries[buf].tick ~= tick then
-			self.entries[buf] = { tick = tick, nodes = {} }
+local function kapsam_zipla()
+	local function satirlar()
+		return vim.fn.getpos("v")[2], vim.fn.getpos(".")[2]
+	end
+	local bs, be = satirlar()
+	-- 20 üst sınır: kök düğümde select() artık büyümüyor, sonsuz döngü olmasın.
+	for _ = 1, 20 do
+		vim.treesitter.select("parent")
+		local ns, ne = satirlar()
+		if ns ~= bs or ne ~= be then
+			return
 		end
-		return self.entries[buf].nodes
-	end,
-	push = function(self, buf, node)
-		table.insert(self:get(buf), node)
-	end,
-	pop = function(self, buf)
-		local nodes = self:get(buf)
-		if #nodes > 0 then
-			return table.remove(nodes) -- Çıkarılan node'u döndür.
-		end
-		return nil
-	end,
-	last = function(self, buf)
-		local nodes = self:get(buf)
-		return nodes[#nodes]
-	end,
-}
-
-SmartSelection.get_node_range = function(node)
-	local srow, scol, erow, ecol = node:range()
-	if ecol == 0 then
-		erow = erow - 1
-		local lines = vim.api.nvim_buf_get_lines(0, erow, erow + 1, false)
-		local line = lines[1] or ""
-		ecol = math.max(#line, 1)
-	end
-	return { srow, scol, erow, ecol - 1 }
-end
-
-SmartSelection.select = function(node)
-	local r = SmartSelection.get_node_range(node)
-	if vim.api.nvim_get_mode().mode ~= "v" then
-		vim.cmd.normal({ "v", bang = true })
-	end
-	vim.api.nvim_win_set_cursor(0, { r[1] + 1, r[2] })
-	vim.cmd.normal({ "o", bang = true })
-	vim.api.nvim_win_set_cursor(0, { r[3] + 1, r[4] })
-end
-
-SmartSelection.init = function()
-	local buf = vim.api.nvim_get_current_buf()
-	local node = vim.treesitter.get_node({ bufnr = buf, ignore_injections = false })
-	if node then
-		SmartSelection.stack:push(buf, node)
-		SmartSelection.select(node)
 	end
 end
 
--- VİTES 1: Adım Adım Büyütme (Node)
-SmartSelection.incremental = function()
-	local buf = vim.api.nvim_get_current_buf()
-	local last = SmartSelection.stack:last(buf)
-	if last and last:parent() then
-		local parent = last:parent()
-		SmartSelection.stack:push(buf, parent)
-		SmartSelection.select(parent)
-	else
-		SmartSelection.init()
-	end
-end
+vim.keymap.set({ "n", "x" }, "<C-space>", function()
+	vim.treesitter.select("parent")
+end, { silent = true, desc = "TS: seçimi büyüt" })
 
--- VİTES 2: Keskin Kapsam Zıplatma (Scope)
-SmartSelection.scope_incremental = function()
-	local buf = vim.api.nvim_get_current_buf()
-	local last = SmartSelection.stack:last(buf)
-	if not last then
-		SmartSelection.init()
-		last = SmartSelection.stack:last(buf)
-	end
-	if last and last:parent() then
-		local parent = last:parent()
-		local srow, _, erow, _ = last:range()
-		-- Alan genişleyene kadar ağaçta yukarı çık (Scope jumping)
-		while parent:parent() do
-			local psrow, _, perow, _ = parent:range()
-			if psrow ~= srow or perow ~= erow then
-				break
-			end
-			parent = parent:parent()
-		end
-		SmartSelection.stack:push(buf, parent)
-		SmartSelection.select(parent)
-	end
-end
+vim.keymap.set("x", "<bs>", function()
+	vim.treesitter.select("child")
+end, { silent = true, desc = "TS: seçimi küçült" })
 
-SmartSelection.decremental = function()
-	local buf = vim.api.nvim_get_current_buf()
-	-- Üstteki (mevcut) node'u at, bir alttakine küçül.
-	SmartSelection.stack:pop(buf)
-	local node = SmartSelection.stack:last(buf)
-	if node then
-		SmartSelection.select(node)
-	end
-end
+vim.keymap.set({ "n", "x" }, "<M-space>", kapsam_zipla, { silent = true, desc = "TS: kapsama zıpla" })
 
--- =============================================================================
--- 2. ADIM: Keymap'ler (C-space ve Alt-space)
--- =============================================================================
-vim.keymap.set("n", "<C-space>", SmartSelection.init, { silent = true, desc = "TS Init" })
-vim.keymap.set("x", "<C-space>", SmartSelection.incremental, { silent = true, desc = "TS Incremental" })
-vim.keymap.set("x", "<M-space>", SmartSelection.scope_incremental, { silent = true, desc = "TS Scope Jump" })
-vim.keymap.set("x", "<bs>", SmartSelection.decremental, { silent = true, desc = "TS Decremental" })
-
--- Treesitter highlight 0.12'de parser'ı olan dosyalarda varsayılan açık (indent değil;
--- indent için standart ftplugin indentexpr'i kullanılır).
--- Kurulu parserları listelemek için: :TSInstalledLanguages
+-- Kurulu parser'ları listelemek için: :TSInstalledLanguages
+-- (Vurgulamayı nvim kendiliğinden AÇMAZ — bunu plugins/treesitter.lua'daki
+-- FileType autocmd'ı yapıyor; eski yorum burada tersini söylüyordu.)
