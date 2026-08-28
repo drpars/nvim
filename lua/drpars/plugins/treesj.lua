@@ -1,11 +1,3 @@
-local function get_installed_ft()
-	local ok, result = pcall(vim.treesitter.get_installed_parsers)
-	if ok and type(result) == "table" then
-		return vim.tbl_keys(result)
-	end
-	return {}
-end
-
 return {
 	{
 		"Wansmer/treesj",
@@ -15,8 +7,9 @@ return {
 			-- Kurulum ayarlarını tek bir tabloda topluyoruz
 			local setup_opts = {
 
-				-- Dinamik olarak oluşturulan dil listesi
-				langs = get_installed_ft(),
+				-- `langs` bilerek verilmiyor: o seçenek kurulu parser listesi değil,
+				-- dil başına node yapılandırması (preset) bekliyor. treesj kendi
+				-- preset'lerini lua/treesj/langs altından zaten yüklüyor.
 
 				-- Temel ayarlar
 				use_default_keymaps = false,
