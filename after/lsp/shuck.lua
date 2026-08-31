@@ -3,7 +3,16 @@
 ---@type vim.lsp.Config
 return {
 	-- lspconfig varsayılanı `bash`, `sh`, `zsh` veriyor — YALNIZ zsh'e
-	-- daraltılıyor, yoksa sh/bash'te bashls ile çift tanı çıkar.
+	-- daraltılıyor. Gerekçe 2026-08-31'de ölçüldü, tahmin değil: shuck sh/bash'i
+	-- gerçekten destekliyor (dialect'ler sh, bash, dash, ksh, mksh, zsh) ama
+	-- varsayılan kural kümesi 85 gerçek dosyada (11.441 satır) shellcheck'in ÖZ
+	-- ALT KÜMESİ — 32 bulgunun 32'si shellcheck'in de işaretlediği satırda,
+	-- 0 yeni bulgu; shellcheck 20 satır fazladan yakalıyor. Editörde ölçülen
+	-- bedel aynı satıra ikinci işaret (statusline.sh 3 -> 5 tanı). Tanı dışı
+	-- yüzeyde de kazanç yok: documentSymbol 27 ↔ 36, completion dört konumda
+	-- yanıt yok/yanıt yok/40/0 ↔ 1/1/3317/4. `--select ALL` shellcheck'i
+	-- kapsıyor ama +521 konumun çoğu Google stil ailesi, kalan C158/C159 ise bu
+	-- korpusta kasıtlı global'leri işaretliyor. Ölçüm: pars/nvim/NOTLAR.md.
 	filetypes = { "zsh" },
 
 	-- Kural ayarı buradan gelmiyor, shuck/shuck.toml'dan. Sebebi ölçüldü
